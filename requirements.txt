@@ -1,0 +1,6 @@
+beautifulsoup4
+requests
+html5lib
+discord
+python-dotenv
+schedule
