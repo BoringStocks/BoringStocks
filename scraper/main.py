@@ -25,36 +25,52 @@ def scrape_stock(target):
     # Check for valid symbol
     try:
         data_table = page_content.find("div", attrs={"id": "quote-summary"})
+
+        # Parse various containers
+        parse_open = data_table.find('td', attrs={'data-test': 'OPEN-value'})
+        parse_points_close = page_content.find('div', attrs={'class' : 'D(ib) Mend(20px)'})
+        parse_cap = data_table.find('td', attrs={'data-test': 'MARKET_CAP-value'})
+
+        # Further parse containers and extract strings
+        data['stock name'] = (page_content.find('h1', attrs={'data-reactid': '7'})).string
+        data['points change'] = (parse_points_close.contents[1]).string
+        data['open'] = (parse_open.find('span')).string
+        data['current'] = (parse_points_close.contents[0]).string
+        data['cap'] = (parse_cap.contents[0]).string
+
+        with open('data.json', 'w') as stock_json:
+            json.dump(data, stock_json)
     except:
         return False
 
-    # Parse various containers
-    parse_open = data_table.find('td', attrs={'data-test': 'OPEN-value'})
-    parse_points_close = page_content.find('div', attrs={'class' : 'D(ib) Mend(20px)'})
-    parse_cap = data_table.find('td', attrs={'data-test': 'MARKET_CAP-value'})
-
-    # Further parse containers and extract strings
-    data['stock name'] = (page_content.find('h1', attrs={'data-reactid': '7'})).string
-    data['points change'] = (parse_points_close.contents[1]).string
-    data['open'] = (parse_open.find('span')).string
-    data['close'] = (parse_points_close.contents[0]).string
-    data['cap'] = (parse_cap.contents[0]).string
-
-    with open('data.json', 'w') as stock_json:
-        json.dump(data, stock_json)
-
 
 # ----------------  FUNCTION TESTING  ----------------
-scrape_stock(input('Input stock symbol: '))
+while True:
+    target = (input('Stock query: ')).lower()
 
-unpacked_json = open('data.json')
-data = json.load(unpacked_json)
+    if target == "quit" or target == 'q':
+        break
+    else:
+        if scrape_stock(target) == False:
+            print('Invalid stock entry')
+        else:
+            unpacked_json = open('data.json')
+            data = json.load(unpacked_json)
 
-print(f'''
-    {data['stock name']} {data['today']}
-    • Open: ${data['open']}
-    • Close: ${data['close']}
-    • From previous close: {data['points change']}
-    • Market cap: ${data['cap']}
-    • Updated {data['scrape time']} UTC
-''')
+            # Just some stupid code to create an underline for the stonk name
+            string_length = len(data['stock name']) + len(data['today']) + 3
+            underline = ''
+            for i in range(string_length):
+                underline += '-'
+
+            print(f'''
+            {data['stock name']} - {data['today']}
+            {underline}
+
+                • CURRENT: ${data['current']}
+                • Open: ${data['open']}
+                • From previous close: {data['points change']}
+                • Market cap: ${data['cap']}
+
+                Updated {data['scrape time']} UTC
+            ''')
