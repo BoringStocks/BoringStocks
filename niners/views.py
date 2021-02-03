@@ -1,8 +1,5 @@
-from flask import render_template, request, send_file
 from niners import app
-import jinja2
-import pprint
-import os
+from flask import render_template, request, send_file
 
 
 @app.route('/')
