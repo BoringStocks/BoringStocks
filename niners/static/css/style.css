@@ -7,12 +7,18 @@
 }
 
 .colStyles {
+    border: 1px solid #30363D;
     border-radius: 20px !important;
+    background-color: #0E1116 !important;
     padding: 20px !important;
 }
 
+.nav-bg {
+    background-color: #06090E !important;
+}
+
 main, body, html {
-    background-color: rgb(26, 26, 26) !important;
+    background-color: #06090E !important;
 }
 
 .transparent {
