@@ -17,11 +17,12 @@
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'static/css/style.css') }}">
   </head>
 
   <body>
     <main>
-      <nav class="navbar navbar-dark bg-dark">
+      <nav class="navbar navbar-dark nav-bg">
         <div class="container-fluid">
           <a class="navbar-brand">Niners</a>
           <form class="d-flex">
@@ -35,7 +36,7 @@
           </form>
           <a class="navbar-brand" href="#">
             <img
-              src="{{ url_for('static', filename = '/static/img/github.svg') }}"
+              src="{{ url_for('static', filename = 'static/img/github.svg') }}"
               alt=""
               width="40"
               height="40"
