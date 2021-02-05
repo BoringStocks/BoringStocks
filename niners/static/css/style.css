@@ -1,31 +1,33 @@
 .mainPadding {
-    padding: 20px 30px;
+  padding: 24px 32px;
 }
 
 .headContPadding {
-    padding: 20px !important;
+  padding: 24px !important;
 }
 
 .colStyles {
-    border: 1px solid #30363D;
-    border-radius: 20px !important;
-    background-color: #0E1116 !important;
-    padding: 20px !important;
+  border: 1px solid #30363d;
+  border-radius: 24px !important;
+  background-color: #0e1116 !important;
+  padding: 24px !important;
 }
 
 .nav-bg {
-    background-color: #06090E !important;
+  background-color: #06090e !important;
 }
 
-main, body, html {
-    background-color: #06090E !important;
+main,
+body,
+html {
+  background-color: #06090e !important;
 }
 
 .transparent {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .x-info-row {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
