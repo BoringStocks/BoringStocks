@@ -31,3 +31,7 @@ html {
   display: flex;
   justify-content: space-between;
 }
+
+.navbar {
+  padding: 16px 20px 16px 20px;
+}
