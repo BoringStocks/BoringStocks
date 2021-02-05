@@ -116,7 +116,7 @@ class Scraper:
         self.embed_link = f'https://public.com/stocks/{self.target}/embed'
         self.embed_data = requests.get(self.embed_link)
         self.embed_content = bs(self.embed_data.content, features='html5lib')
-        self.dict['embed content'] = self.embed_content
+        self.dict['embed content'] = str(self.embed_content)
 
 
 def get_all(stock_obj):
@@ -133,10 +133,15 @@ def get_all(stock_obj):
     stock_obj.get_avg_volume()
     stock_obj.get_embed()
     
-    for k, v in stock_obj.dict.items():
-        print(f'{k}: {v}')
+    # for k, v in stock_obj.dict.items():
+    #     print(f'{k}: {v}')
+
+    with open('data.json', 'w') as stock_json:
+        json.dump(stock_obj.dict, stock_json)
+
+    print('dump successful')
 
 
-# ---------- TESTING ----------
-stock_obj = Scraper(input('Stock query: '))
-get_all(stock_obj)
+def scrape(stock_symbol):
+    stock_obj = Scraper(str(stock_symbol))
+    get_all(stock_obj)
