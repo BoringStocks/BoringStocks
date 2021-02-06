@@ -1,0 +1,37 @@
+.mainPadding {
+  padding: 24px 32px;
+}
+
+.headContPadding {
+  padding: 24px !important;
+}
+
+.colStyles {
+  border: 1px solid #30363d;
+  border-radius: 24px !important;
+  background-color: #0e1116 !important;
+  padding: 24px !important;
+}
+
+.nav-bg {
+  background-color: #06090e !important;
+}
+
+main,
+body,
+html {
+  background-color: #06090e !important;
+}
+
+.transparent {
+  background-color: transparent !important;
+}
+
+.x-info-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar {
+  padding: 16px 20px 16px 20px;
+}

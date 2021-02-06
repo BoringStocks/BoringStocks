@@ -4,6 +4,7 @@ chardet==4.0.0
 click==7.1.2
 colorful==0.5.4
 Flask==1.1.2
+gunicorn==20.0.4
 html5lib==1.1
 idna==2.10
 itsdangerous==1.1.0
