@@ -1,3 +1,4 @@
+autopep8==1.5.5
 beautifulsoup4==4.9.3
 certifi==2020.12.5
 chardet==4.0.0
@@ -11,12 +12,14 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 prettyprinter==0.18.0
+pycodestyle==2.6.0
 Pygments==2.7.4
 python-dotenv==0.15.0
 requests==2.25.1
 schedule==0.6.0
 six==1.15.0
 soupsieve==2.1
+toml==0.10.2
 urllib3==1.26.3
 webencodings==0.5.1
 Werkzeug==1.0.1
