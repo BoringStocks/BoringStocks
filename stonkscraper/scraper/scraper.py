@@ -96,17 +96,6 @@ class Scraper:
         '''Parse self.parse_avg_volume for average volume, return self.avg_volume'''
 
         self.avg_volume = (self.parse_avg_volume.find('span')).string
-
-        # def human_format(num):
-        #     self.num = num
-        #     self.magnitude = 0
-        #     while abs(self.num) >= 1000:
-        #         self.magnitude += 1
-        #         self.num /= 1000.0
-        #     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][self.magnitude])
-
-        # self.human_readable = human_format(float(self.avg_volume))
-        # print(f'Human Readable: {self.human_readable}')
         self.dict['avg volume'] = self.avg_volume
 
     
@@ -119,29 +108,27 @@ class Scraper:
         self.dict['embed content'] = str(self.embed_content)
 
 
-def get_all(stock_obj):
-    '''Create and call all parse methods on Scraper object'''
+    def get_all(self):
+        '''Create and call all parse methods on Scraper object'''
 
-    stock_obj.scrape_page()
-    stock_obj.get_name()
-    stock_obj.get_time()
-    stock_obj.get_current()
-    stock_obj.get_open()
-    stock_obj.get_points_change()
-    stock_obj.get_cap()
-    stock_obj.get_volume()
-    stock_obj.get_avg_volume()
-    stock_obj.get_embed()
-    
-    # for k, v in stock_obj.dict.items():
-    #     print(f'{k}: {v}')
-
-    with open('data.json', 'w') as stock_json:
-        json.dump(stock_obj.dict, stock_json)
-
-    print('dump successful')
+        self.scrape_page()
+        self.get_name()
+        self.get_time()
+        self.get_current()
+        self.get_open()
+        self.get_points_change()
+        self.get_cap()
+        self.get_volume()
+        self.get_avg_volume()
+        # self.get_embed()
 
 
-def scrape(stock_symbol):
-    stock_obj = Scraper(str(stock_symbol))
-    get_all(stock_obj)
+        with open('data.json', 'w') as stock_json:
+            json.dump(self.dict, stock_json)
+
+        print('dump successful')
+
+
+# ---------- TESTING ----------
+testing = Scraper('AMC')
+testing.get_all()
