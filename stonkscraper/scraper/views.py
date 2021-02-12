@@ -38,7 +38,6 @@ def get_current(ticker):
     format = "%H:%M:%S"
     old_time = data['time']
     new_time = (datetime.utcnow()).strftime(format)
-    
     time_delta = datetime.strptime(new_time, format) - datetime.strptime(old_time, format)    
     
     
@@ -53,15 +52,11 @@ def get_current(ticker):
         if stock.page_content == False:
             return 'ERROR'
 
-        new_current = stock.get_one('current')
+        stock.get_all()
 
-        print(f'{time_delta.total_seconds()} seconds since last scrape')
-        print(f'Writing new current data to json: {new_current}')
-        with open('data.json', 'w') as stock_json:
-            json.dump(new_current, stock_json)
+        return data
 
-        return stock.get_one('current')
     else:
         # return old current
         print('Returning old scrape')
-        return data['current']
+        return data
