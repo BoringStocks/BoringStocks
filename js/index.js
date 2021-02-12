@@ -52,10 +52,18 @@ function updateStatsBubble({ open, high, low, close, volume, avg_volume }) {
     avgVolumeEl.innerHTML = avg_volume
   }
 }
+let refreshStock
+
+function refresh(ticker) {
+  refreshStock = setInterval(function () {
+    requestData(ticker)
+  }, 10000)
+}
 
 async function requestData(ticker) {
   const api = "https://stonkscraper.herokuapp.com"
   const url = `${api}/${ticker}`
+  console.log("high")
 
   await fetch(url)
     .then((response) => response.json())
@@ -70,6 +78,7 @@ async function requestData(ticker) {
       updatePriceBubble(result)
       updateStatsBubble(result)
     })
+
     .catch((err) => {
       console.log(err)
     })
@@ -79,4 +88,6 @@ searchButton.onclick = (event) => {
   event.preventDefault()
 
   requestData(searchInput.value)
+
+  refresh(searchInput.value)
 }
