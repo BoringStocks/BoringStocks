@@ -79,7 +79,7 @@ class Scraper:
         points = split_data[0]
 
         # Remove paranthese and % from percent string
-        percent = split_data[1].replace('%) ', '')
+        percent = split_data[1].replace('%)', '')
 
         # Store points and percent in dict
         self.points_percent = {}
