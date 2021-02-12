@@ -36,7 +36,6 @@ html {
   padding: 16px 20px 16px 20px;
 }
 
-
 .mobileView {
   display: none;
 }
@@ -48,10 +47,9 @@ html {
   width: 100%;
   display: flex !important;
   justify-content: space-between;
-  padding: 0 15px;
+  padding: 16px 20px 16px 20px;
   margin: 0 auto;
 }
-
 
 @media only screen and (max-width: 992px) {
   .desktopView {
@@ -66,4 +64,3 @@ html {
     position: inherit;
   }
 }
-
