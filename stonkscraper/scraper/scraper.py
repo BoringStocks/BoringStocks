@@ -87,7 +87,7 @@ class Scraper:
         self.points_percent['percent'] = percent
 
         # Store dict in all_data_dict
-        self.all_data_dict['points change'] = self.points_percent
+        self.all_data_dict['points_change'] = self.points_percent
 
         return self.points_percent
 
@@ -141,7 +141,7 @@ class Scraper:
         self.all_data_dict['time'] = self.get_time()
         self.all_data_dict['current'] = self.get_current()
         self.all_data_dict['open'] = self.get_open()
-        self.all_data_dict['points change'] = self.get_points_change()
+        self.all_data_dict['points_change'] = self.get_points_change()
         self.all_data_dict['cap'] = self.get_cap()
         self.all_data_dict['volume'] = self.get_volume()
         self.all_data_dict['avg volume'] = self.get_avg_volume()
@@ -164,7 +164,7 @@ class Scraper:
             self.dict['time'] = self.get_time()
         elif method == 'current':
             self.dict['current'] = self.get_current()
-            self.dict['points change'] = self.get_points_change()
+            self.dict['points_change'] = self.get_points_change()
             self.dict['time'] = self.get_time()
         elif method == 'open':
             self.dict['open'] = self.get_open()
