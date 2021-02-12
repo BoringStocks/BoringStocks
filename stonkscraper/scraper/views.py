@@ -30,25 +30,36 @@ def get_name(ticker):
 
 @app.route('/<ticker>/current')
 def get_current(ticker):
-    stock = Scraper(ticker)
-    stock.scrape_page()
 
-    if stock.page_content == False:
-        return 'ERROR'
-
-
+    # Unpack json to parse time
     unpacked_json = open('data.json')
     data = json.load(unpacked_json)
 
-    old_time = data['time']
-    new_time = stock.get_time()
     format = "%H:%M:%S"
-    time_delta = datetime.strptime(new_time, format) - datetime.strptime(old_time, format)
+    old_time = data['time']
+    new_time = (datetime.utcnow()).strftime(format)
+    
+    time_delta = datetime.strptime(new_time, format) - datetime.strptime(old_time, format)    
+    
     
     # Return old/new scrape depending on time_delta between scrapes
     if time_delta.total_seconds() > 5:
-        # return new current
+
+        # return new current, write new data into json
         print('Returning new scrape')
+        stock = Scraper(ticker)
+        stock.scrape_page()
+
+        if stock.page_content == False:
+            return 'ERROR'
+
+        new_current = stock.get_one('current')
+
+        print(f'{time_delta.total_seconds()} seconds since last scrape')
+        print(f'Writing new current data to json: {new_current}')
+        with open('data.json', 'w') as stock_json:
+            json.dump(new_current, stock_json)
+
         return stock.get_one('current')
     else:
         # return old current
