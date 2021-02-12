@@ -14,7 +14,7 @@ const avgVolumeEls = document.getElementsByClassName("avgVolume")
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
 
-function updateCompanyBubble(ticker, name) {
+function updateCompanyBubble({ ticker, name }) {
   for (tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = ticker
   }
@@ -23,16 +23,16 @@ function updateCompanyBubble(ticker, name) {
   }
 }
 
-function updatePriceBubble(currentPrice, priceChange, percentageChange) {
+function updatePriceBubble({ current, points_change: { percent, points } }) {
   for (currentPriceEl of currentPriceEls) {
-    currentPriceEl.innerHTML = currentPrice
+    currentPriceEl.innerHTML = current
   }
   for (priceChangeEl of priceChangeEls) {
-    priceChangeEl.innerHTML = `${priceChange} (${percentageChange}%)`
+    priceChangeEl.innerHTML = `${points} (${percent}%)`
   }
 }
 
-function updateStatsBubble(open, high, low, close, volume, avgVolume) {
+function updateStatsBubble({ open, high, low, close, volume, avg_volume }) {
   for (openEl of openEls) {
     openEl.innerHTML = open
   }
@@ -49,23 +49,34 @@ function updateStatsBubble(open, high, low, close, volume, avgVolume) {
     volumeEl.innerHTML = volume
   }
   for (avgVolumeEl of avgVolumeEls) {
-    avgVolumeEl.innerHTML = avgVolume
+    avgVolumeEl.innerHTML = avg_volume
   }
 }
 
 async function requestData(ticker) {
-  const api = "stonkscraper.heroku.com"
-  const url = `${api}/ticker`
+  const api = "https://stonkscraper.herokuapp.com"
+  const url = `${api}/${ticker}`
 
-  const response = await fetch(url)
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      result.ticker = ticker.toUpperCase()
+      result.avg_volume = result["avg volume"]
+      result.high = 1
+      result.low = 1
+      result.close = 1
+
+      updateCompanyBubble(result)
+      updatePriceBubble(result)
+      updateStatsBubble(result)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
 
-  // console.log(searchInput.value)
-
-  updateCompanyBubble("AMC", "AMC Corp")
-  updatePriceBubble(5, -100, -50)
-  updateStatsBubble(1, 1, 1, 1, 1, 1)
+  requestData(searchInput.value)
 }
