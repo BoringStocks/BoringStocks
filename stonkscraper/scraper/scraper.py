@@ -149,6 +149,7 @@ class Scraper:
         elif method == 'current':
             self.dict['current'] = self.get_current()
             self.dict['points change'] = self.get_points_change()
+            self.dict['time'] = self.get_time()
         elif method == 'open':
             self.dict['open'] = self.get_open()
         elif method == 'cap':
@@ -161,13 +162,6 @@ class Scraper:
             self.dict['error'] = 'Incorrect method call'
 
         return self.dict
-
-    def check_data(self):
-        # read old timestamp, name
-        # get new timestamp, name
-        # if name == new_name && old timestamp within 5 seconds of new timestamp, return old data
-        pass
-
 
 
 # ---------- TESTING ----------
