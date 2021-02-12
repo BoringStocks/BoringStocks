@@ -41,6 +41,17 @@ html {
   display: none;
 }
 
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex !important;
+  justify-content: space-between;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
 
 @media only screen and (max-width: 992px) {
   .desktopView {
@@ -49,6 +60,10 @@ html {
 
   .mobileView {
     display: block;
+  }
+
+  .footer {
+    position: inherit;
   }
 }
 
