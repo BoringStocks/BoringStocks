@@ -2,7 +2,10 @@
 <html>
 
 <head>
-  <title>Niners App</title>
+  <title>BoringStocks</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+
   <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
@@ -19,20 +22,20 @@
 
     <!--  NAVBAR  -->
     <nav class="navbar navbar-dark nav-bg">
-      <div class="container">
-        <a class="navbar-brand" style="opacity: 0.85;">BoringStocks</a>
+      <div class="container" style="opacity: 0.85;">
+        <a style="font-size: 33px; line-height: 38px;">💸</a>
 
         <form class="d-flex">
           <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
           <button id="searchButton" class="btn btn-outline-light" type="submit">Search</button>
         </form>
 
-        <a target="_blank" href="https://github.com/numel007/niners">
+        <a target="_blank" href="https://github.com/BoringStocks/BoringStocks">
           <svg width="33" height="33" viewBox="0 0 33 33">
             <title>Github Link</title>
             <path
               d="M16.6.46C7.6.46.33 7.76.33 16.76c0 7.17 4.67 13.3 11.14 15.43.8.1 1.1-.4 1.1-.8v-2.8c-4.54.9-5.5-2.2-5.5-2.2-.74-1.9-1.8-2.4-1.8-2.4-1.48-1 .1-1 .1-1 1.64.1 2.5 1.7 2.5 1.7 1.45 2.4 3.8 1.7 4.74 1.3.2-1.1.6-1.8 1.1-2.2-3.6-.4-7.4-1.8-7.4-8.1 0-1.8.7-3.28 1.7-4.4-.1-.4-.7-2.1.2-4.3 0 0 1.4-.48 4.5 1.63 1.3-.36 2.7-.54 4.1-.55 1.4 0 2.8.2 4.1.57 3.1-2.1 4.48-1.7 4.48-1.7.9 2.24.33 3.9.17 4.3 1 1.2 1.6 2.64 1.6 4.44 0 6.23-3.8 7.6-7.43 8 .6.5 1.1 1.5 1.1 3.04v4.47c0 .43.27.94 1.1.8 6.45-2.1 11.1-8.2 11.1-15.4 0-9-7.3-16.3-16.3-16.3"
-              fill="#d6d6d7">
+              fill="#fff">
             </path>
           </svg>
         </a>
@@ -45,24 +48,25 @@
       <div class="container transparent mainPadding desktopView">
         <div class="row text-light text-center">
           <!--  Ticker Name Container  -->
-          <div class="col-sm-6 bg-dark colStyles headContPadding">
+          <div class="col bg-dark colStyles headContPadding" style="margin-right: 24px;">
             <!-- Ticker Index -->
             <h1 class="tickerIndex">GME</h1>
             <!-- Ticker Company Name -->
             <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
           </div>
+
           <!--  Ticker Price Container -->
-          <div class="col-sm-5 bg-dark colStyles headContPadding"
-            style="margin-left: auto; box-shadow: inset 0 0 20px #FF453A;">
+          <div class="col bg-dark colStyles headContPadding"
+            style="margin-left: auto; box-shadow: inset 0 0 20px #FF453A; margin-left: 24px;">
             <!-- Current Price -->
             <h1 class="currentPrice">225.00</h1>
             <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
           </div>
         </div>
 
-        <div class="row text-light text-center" style="margin-top: 70px;">
+        <div class="row text-light text-center" style="margin-top: 48px;">
           <!--  Stock information container  -->
-          <div class="col-sm-6 bg-dark colStyles x-info-col" style="padding: 20px;">
+          <div class="col bg-dark colStyles x-info-col" style="padding: 20px; margin-right: 24px;">
             <div class="x-info-row">
               <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
               <!-- Open -->
@@ -80,7 +84,8 @@
             </div>
             <!-- Close -->
             <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Close <span style="font-size: 13px;">(Prev)</span></h4>
+              <!-- <span style="font-size: 13px;">(Prev)</span> -->
+              <h4 style="color: rgba(255, 255, 255, 0.425);">Close</h4>
               <h4 class="close">225.00</h4>
             </div>
             <hr>
@@ -97,7 +102,7 @@
           </div>
 
           <!--  CHART JS GRAPH  -->
-          <div class="col-sm-5 bg-dark colStyles" style="padding: 20px; margin-left: auto;">
+          <div class="col bg-dark colStyles" style="padding: 20px; margin-left: 24px;">
 
           </div>
         </div>
@@ -107,16 +112,9 @@
 
 
 
-
-
-
-
-
-
-
     <section>
       <div class="container transparent mainPadding mobileView">
-        <div class="row text-light text-center" style="margin-bottom: 20px;">
+        <div class="row text-light text-center" style="margin-bottom: 24px;">
           <div class="col-md-12 bg-dark colStyles headContPadding" style="box-shadow: inset 0 0 20px #FF453A;">
             <!-- Ticker Index -->
             <h1 class="tickerIndex">GME</h1>
@@ -132,21 +130,21 @@
 
         <div class="row text-light text-center">
           <!--  ChartJS Graph  -->
-          <div class="col-md-12 bg-dark colStyles" style="padding: 20px; height: 300px;">
+          <div class="col-md-12 bg-dark colStyles" style="padding: 24px; height: 300px;">
 
           </div>
         </div>
 
-        <div class="row text-light text-center" style="margin-top: 25px;">
+        <div class="row text-light text-center" style="margin-top: 24px;">
           <!--  Stock Information Container  -->
-          <div class="col-sm-12 bg-dark colStyles x-info-col" style="padding: 20px;">
+          <div class="col-sm-12 bg-dark colStyles x-info-col" style="padding: 24px;">
             <div class="x-info-row">
               <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
               <!-- Open -->
               <h4 class="open">316.56</h4>
             </div>
             <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">High</h4>
+              <h5 style="color: rgba(255, 255, 255, 0.425);">High</h5>
               <!-- High -->
               <h4 class="high">322.00</h4>
             </div>
@@ -179,22 +177,10 @@
 
     <div class="footer">
       <div class="container" style="display: flex; justify-content: space-between;">
-        <h5 style="color: #FFFFFF; opacity: 0.55;">BoringStocks</h5>
-        <h5 style="color: #FFFFFF; opacity: 0.55;">&#169 Copyright 2021</h5>
+        <h6 style="color: #FFFFFF; opacity: 0.55; font-weight: 300;">Designed in California</h6>
+        <h6 style="color: #FFFFFF; opacity: 0.55; font-weight: 300;">&#169 BoringStocks 2021</h6>
       </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
   </main>
   <script type="text/javascript" src="js/index.js"></script>
