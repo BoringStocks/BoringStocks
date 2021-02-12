@@ -72,8 +72,24 @@ class Scraper:
         '''Parse self.parse_points_close (this is a list, close is index 1) for previous close, return self.points_change'''
 
         self.points_change = (self.parse_points_close.contents[1]).string
-        self.all_data_dict['points change'] = self.points_change
-        return self.points_change
+
+        # Split parsed string into list, i0 = points, i1 = percent
+        split_data = (self.points_change).split('(')
+
+        points = split_data[0]
+
+        # Remove paranthese and % from percent string
+        percent = split_data[1].replace('%) ', '')
+
+        # Store points and percent in dict
+        self.points_percent = {}
+        self.points_percent['points'] = points
+        self.points_percent['percent'] = percent
+
+        # Store dict in all_data_dict
+        self.all_data_dict['points change'] = self.points_percent
+
+        return self.points_percent
 
 
     def get_current(self):
@@ -162,8 +178,3 @@ class Scraper:
             self.dict['error'] = 'Incorrect method call'
 
         return self.dict
-
-
-# ---------- TESTING ----------
-# testing = Scraper('AMC')
-# testing.get_all()
