@@ -4,32 +4,16 @@ from .scraper import Scraper
 import json
 from datetime import datetime
 
+
 @app.route('/')
 def home():
     """Displays the homepage with forms for current or historical data."""
 
-    return "hello"
+    return "Nothing to see here, try /<ticker>"
+
 
 @app.route('/<ticker>')
 def get_all(ticker):
-    stock = Scraper(ticker)
-
-    return stock.get_all()
-
-
-@app.route('/<ticker>/name')
-def get_name(ticker):
-    stock = Scraper(ticker)
-    stock.scrape_page()
-
-    if stock.page_content == False:
-        return 'ERROR'
-
-    return stock.get_one('name')
-
-
-@app.route('/<ticker>/current')
-def get_current(ticker):
 
     # Unpack json to parse time
     unpacked_json = open('data.json')
@@ -60,3 +44,14 @@ def get_current(ticker):
         # return old current
         print('Returning old scrape')
         return data
+
+
+@app.route('/<ticker>/name')
+def get_name(ticker):
+    stock = Scraper(ticker)
+    stock.scrape_page()
+
+    if stock.page_content == False:
+        return 'ERROR'
+
+    return stock.get_one('name')
