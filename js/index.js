@@ -1,42 +1,69 @@
-const tickerIndexEl = document.getElementById("tickerIndex")
-const companyNameEl = document.getElementById("companyName")
+const tickerIndexEls = document.getElementsByClassName("tickerIndex")
+const companyNameEls = document.getElementsByClassName("companyName")
 
-const currentPriceEl = document.getElementById("currentPrice")
-const priceChangeEl = document.getElementById("priceChange")
+const currentPriceEls = document.getElementsByClassName("currentPrice")
+const priceChangeEls = document.getElementsByClassName("priceChange")
 
-const openEl = document.getElementById("open")
-const highEl = document.getElementById("high")
-const lowEl = document.getElementById("low")
-const closeEl = document.getElementById("close")
-const volumeEl = document.getElementById("volume")
-const avgVolumeEl = document.getElementById("avgVolume")
+const openEls = document.getElementsByClassName("open")
+const highEls = document.getElementsByClassName("high")
+const lowEls = document.getElementsByClassName("low")
+const closeEls = document.getElementsByClassName("close")
+const volumeEls = document.getElementsByClassName("volume")
+const avgVolumeEls = document.getElementsByClassName("avgVolume")
 
-const searchInputEl = document.getElementById("searchInput")
-const searchButtonEl = document.getElementById("searchButton")
+const searchInputEls = document.getElementsByClassName("searchInput")
+const searchButtonEls = document.getElementsByClassName("searchButton")
 
 function updateCompanyBubble(ticker, name) {
-  tickerIndexEl.innerHTML = ticker
-  companyNameEl.innerHTML = name
+  for (tickerIndexEl of tickerIndexEls) {
+    tickerIndexEl.innerHTML = ticker
+  }
+  for (companyNameEl of companyNameEls) {
+    companyNameEl.innerHTML = name
+  }
 }
 
 function updatePriceBubble(currentPrice, priceChange, percentageChange) {
-  currentPriceEl.innerHTML = currentPrice
-  priceChangeEl.innerHTML = `${priceChange} (${percentageChange}%)`
+  for (currentPriceEl of currentPriceEls) {
+    currentPriceEl.innerHTML = currentPrice
+  }
+  for (priceChangeEl of priceChangeEls) {
+    priceChangeEl.innerHTML = `${priceChange} (${percentageChange}%)`
+  }
 }
 
 function updateStatsBubble(open, high, low, close, volume, avgVolume) {
-  openEl.innerHTML = open
-  highEl.innerHTML = high
-  lowEl.innerHTML = low
-  closeEl.innerHTML = close
-  volumeEl.innerHTML = volume
-  avgVolumeEl.innerHTML = avgVolume
+  for (openEl of openEls) {
+    openEl.innerHTML = open
+  }
+  for (highEl of highEls) {
+    highEl.innerHTML = high
+  }
+  for (lowEl of lowEls) {
+    lowEl.innerHTML = low
+  }
+  for (closeEl of closeEls) {
+    closeEl.innerHTML = close
+  }
+  for (volumeEl of volumeEls) {
+    volumeEl.innerHTML = volume
+  }
+  for (avgVolumeEl of avgVolumeEls) {
+    avgVolumeEl.innerHTML = avgVolume
+  }
+}
+
+async function requestData(ticker) {
+  const api = "stonkscraper.heroku.com"
+  const url = `${api}/ticker`
+
+  const response = await fetch(url)
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
 
-  console.log(searchInput.value)
+  // console.log(searchInput.value)
 
   updateCompanyBubble("AMC", "AMC Corp")
   updatePriceBubble(5, -100, -50)
