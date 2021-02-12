@@ -3,8 +3,6 @@ import json
 from bs4 import BeautifulSoup as bs
 import html5lib
 from datetime import datetime, date
-import time
-import json
 
 class Scraper:
 
