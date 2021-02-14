@@ -1,6 +1,7 @@
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
 
+const priceContainerEls = document.getElementsByClassName("priceContainer")
 const currentPriceEls = document.getElementsByClassName("currentPrice")
 const priceChangeEls = document.getElementsByClassName("priceChange")
 
@@ -14,7 +15,10 @@ const avgVolumeEls = document.getElementsByClassName("avgVolume")
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
 
-function updateCompanyBubble(ticker, name) {
+const greenColor = "#32D74B"
+const redColor = "#FF453A"
+
+function updateCompanyContainer({ ticker, name }) {
   for (tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = ticker
   }
@@ -23,16 +27,30 @@ function updateCompanyBubble(ticker, name) {
   }
 }
 
-function updatePriceBubble(currentPrice, priceChange, percentageChange) {
+function updatePriceContainer({ current, points_change: { percent, points } }) {
+  const needsAnimationRefresh = currentPriceEls[0].innerHTML != current
   for (currentPriceEl of currentPriceEls) {
-    currentPriceEl.innerHTML = currentPrice
+    currentPriceEl.innerHTML = current
   }
+
+  const isPositive = points >= 0
+  const color = isPositive ? greenColor : redColor
   for (priceChangeEl of priceChangeEls) {
-    priceChangeEl.innerHTML = `${priceChange} (${percentageChange}%)`
+    priceChangeEl.innerHTML = `${points} (${percent}%)`
+    priceChangeEl.style.color = color
+  }
+
+  if (needsAnimationRefresh) {
+    const index = document.body.clientWidth <= 992 ? 1 : 0
+    const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
+    priceContainerEls[index].classList.remove(animation)
+    setTimeout(function () {
+      priceContainerEls[index].classList.add(animation)
+    }, 0)
   }
 }
 
-function updateStatsBubble(open, high, low, close, volume, avgVolume) {
+function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
   for (openEl of openEls) {
     openEl.innerHTML = open
   }
@@ -49,23 +67,44 @@ function updateStatsBubble(open, high, low, close, volume, avgVolume) {
     volumeEl.innerHTML = volume
   }
   for (avgVolumeEl of avgVolumeEls) {
-    avgVolumeEl.innerHTML = avgVolume
+    avgVolumeEl.innerHTML = avg_volume
   }
 }
 
-async function requestData(ticker) {
-  const api = "stonkscraper.heroku.com"
-  const url = `${api}/ticker`
+let refreshStock
+function refresh(ticker) {
+  clearInterval(refreshStock)
+  refreshStock = setInterval(function () {
+    requestData(ticker)
+  }, 2000)
+}
 
-  const response = await fetch(url)
+async function requestData(ticker) {
+  const api = "https://stonkscraper.herokuapp.com"
+  const url = `${api}/${ticker}`
+
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      result.ticker = ticker.toUpperCase()
+      result.avg_volume = result["avg volume"]
+      result.high = 1
+      result.low = 1
+      result.close = 1
+
+      updateCompanyContainer(result)
+      updatePriceContainer(result)
+      updateStatsContainer(result)
+    })
+
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
 
-  // console.log(searchInput.value)
-
-  updateCompanyBubble("AMC", "AMC Corp")
-  updatePriceBubble(5, -100, -50)
-  updateStatsBubble(1, 1, 1, 1, 1, 1)
+  requestData(searchInput.value)
+  refresh(searchInput.value)
 }

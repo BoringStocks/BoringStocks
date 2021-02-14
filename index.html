@@ -22,12 +22,14 @@
 
     <!--  NAVBAR  -->
     <nav class="navbar navbar-dark nav-bg">
-      <div class="container" style="opacity: 0.85;">
+      <div class="container" style="opacity: 0.85; flex-wrap: nowrap;">
         <a style="font-size: 33px; line-height: 38px;">💸</a>
 
-        <form class="d-flex">
-          <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button id="searchButton" class="btn btn-outline-light" type="submit">Search</button>
+        <form class="d-flex" style="padding: 0 12px 0 12px">
+          <input id="searchInput" class="form-control me-2" style="border-radius: 12px;" type="search"
+            placeholder="Search" aria-label="Search" />
+          <button id="searchButton" class="btn btn-outline-light" style="border-radius: 12px;"
+            type="submit">Search</button>
         </form>
 
         <a target="_blank" href="https://github.com/BoringStocks/BoringStocks">
@@ -56,8 +58,7 @@
           </div>
 
           <!--  Ticker Price Container -->
-          <div class="col bg-dark colStyles headContPadding"
-            style="margin-left: auto; box-shadow: inset 0 0 20px #FF453A; margin-left: 24px;">
+          <div class="col bg-dark colStyles headContPadding priceContainer" style="margin-left: 24px;">
             <!-- Current Price -->
             <h1 class="currentPrice">225.00</h1>
             <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
@@ -115,7 +116,7 @@
     <section>
       <div class="container transparent mainPadding mobileView">
         <div class="row text-light text-center" style="margin-bottom: 24px;">
-          <div class="col-md-12 bg-dark colStyles headContPadding" style="box-shadow: inset 0 0 20px #FF453A;">
+          <div class="col-md-12 bg-dark colStyles headContPadding priceContainer">
             <!-- Ticker Index -->
             <h1 class="tickerIndex">GME</h1>
             <!-- Ticker Company Name -->
@@ -154,7 +155,8 @@
               <h4 class="low">212.00</h4>
             </div>
             <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Close <span style="font-size: 13px;">(Prev)</span></h4>
+              <!-- <span style="font-size: 13px;">(Prev)</span> -->
+              <h4 style="color: rgba(255, 255, 255, 0.425);">Close</h4>
               <!-- Close -->
               <h4 class="close">225.00</h4>
             </div>
