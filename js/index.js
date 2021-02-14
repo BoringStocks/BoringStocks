@@ -1,6 +1,7 @@
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
 
+const priceContainerEls = document.getElementsByClassName("priceContainer")
 const currentPriceEls = document.getElementsByClassName("currentPrice")
 const priceChangeEls = document.getElementsByClassName("priceChange")
 
@@ -32,10 +33,18 @@ function updatePriceBubble({ current, points_change: { percent, points } }) {
   }
 
   const isPositive = points >= 0
+  const color = isPositive ? greenColor : redColor
   for (priceChangeEl of priceChangeEls) {
     priceChangeEl.innerHTML = `${points} (${percent}%)`
-    priceChangeEl.style.color = isPositive ? greenColor : redColor
+    priceChangeEl.style.color = color
   }
+
+  const index = document.body.clientWidth <= 992 ? 1 : 0
+  const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
+  priceContainerEls[index].classList.remove(animation)
+  setTimeout(function () {
+    priceContainerEls[index].classList.add(animation)
+  }, 0)
 }
 
 function updateStatsBubble({ open, high, low, close, volume, avg_volume }) {
