@@ -18,7 +18,7 @@ const searchButtonEls = document.getElementsByClassName("searchButton")
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
 
-function updateCompanyBubble({ ticker, name }) {
+function updateCompanyContainer({ ticker, name }) {
   for (tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = ticker
   }
@@ -27,7 +27,7 @@ function updateCompanyBubble({ ticker, name }) {
   }
 }
 
-function updatePriceBubble({ current, points_change: { percent, points } }) {
+function updatePriceContainer({ current, points_change: { percent, points } }) {
   for (currentPriceEl of currentPriceEls) {
     currentPriceEl.innerHTML = current
   }
@@ -47,7 +47,7 @@ function updatePriceBubble({ current, points_change: { percent, points } }) {
   }, 0)
 }
 
-function updateStatsBubble({ open, high, low, close, volume, avg_volume }) {
+function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
   for (openEl of openEls) {
     openEl.innerHTML = open
   }
@@ -89,9 +89,9 @@ async function requestData(ticker) {
       result.low = 1
       result.close = 1
 
-      updateCompanyBubble(result)
-      updatePriceBubble(result)
-      updateStatsBubble(result)
+      updateCompanyContainer(result)
+      updatePriceContainer(result)
+      updateStatsContainer(result)
     })
 
     .catch((err) => {
