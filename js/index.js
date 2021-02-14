@@ -28,6 +28,7 @@ function updateCompanyContainer({ ticker, name }) {
 }
 
 function updatePriceContainer({ current, points_change: { percent, points } }) {
+  const needsAnimationRefresh = currentPriceEls[0].innerHTML != current
   for (currentPriceEl of currentPriceEls) {
     currentPriceEl.innerHTML = current
   }
@@ -39,12 +40,14 @@ function updatePriceContainer({ current, points_change: { percent, points } }) {
     priceChangeEl.style.color = color
   }
 
-  const index = document.body.clientWidth <= 992 ? 1 : 0
-  const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
-  priceContainerEls[index].classList.remove(animation)
-  setTimeout(function () {
-    priceContainerEls[index].classList.add(animation)
-  }, 0)
+  if (needsAnimationRefresh) {
+    const index = document.body.clientWidth <= 992 ? 1 : 0
+    const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
+    priceContainerEls[index].classList.remove(animation)
+    setTimeout(function () {
+      priceContainerEls[index].classList.add(animation)
+    }, 0)
+  }
 }
 
 function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
