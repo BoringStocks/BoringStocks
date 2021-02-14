@@ -14,6 +14,9 @@ const avgVolumeEls = document.getElementsByClassName("avgVolume")
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
 
+const greenColor = "#32D74B"
+const redColor = "#FF453A"
+
 function updateCompanyBubble({ ticker, name }) {
   for (tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = ticker
@@ -27,8 +30,11 @@ function updatePriceBubble({ current, points_change: { percent, points } }) {
   for (currentPriceEl of currentPriceEls) {
     currentPriceEl.innerHTML = current
   }
+
+  const isPositive = points >= 0
   for (priceChangeEl of priceChangeEls) {
     priceChangeEl.innerHTML = `${points} (${percent}%)`
+    priceChangeEl.style.color = isPositive ? greenColor : redColor
   }
 }
 
