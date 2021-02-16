@@ -14,13 +14,15 @@ const avgVolumeEls = document.getElementsByClassName("avgVolume")
 
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
+const searchSpan = document.getElementById("searchSpan")
+const loadingDiv = document.getElementById("loadingDiv")
 
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
 
-function updateCompanyContainer({ ticker, name }) {
+function updateCompanyContainer({ symbol, name }) {
   for (tickerIndexEl of tickerIndexEls) {
-    tickerIndexEl.innerHTML = ticker
+    tickerIndexEl.innerHTML = symbol
   }
   for (companyNameEl of companyNameEls) {
     companyNameEl.innerHTML = name
@@ -43,14 +45,20 @@ function updatePriceContainer({ current, points_change: { percent, points } }) {
   if (needsAnimationRefresh) {
     const index = document.body.clientWidth <= 992 ? 1 : 0
     const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
-    priceContainerEls[index].classList.remove(animation)
+    priceContainerEls[index].classList.remove("greenPriceUpdate")
+    priceContainerEls[index].classList.remove("redPriceUpdate")
     setTimeout(function () {
       priceContainerEls[index].classList.add(animation)
     }, 0)
   }
 }
 
-function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
+function updateStatsContainer({
+  range: { close, high, low },
+  open,
+  volume,
+  avg_volume,
+}) {
   for (openEl of openEls) {
     openEl.innerHTML = open
   }
@@ -71,12 +79,24 @@ function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
   }
 }
 
+function setLoadingState(state) {
+  searchButton.disabled = state
+  searchInput.disabled = state
+
+  searchSpan.style.display = state ? "none" : "block"
+  loadingDiv.style.display = state ? "block" : "none"
+}
+
+let symbol = "GME"
 let refreshStock
 function refresh(ticker) {
   clearInterval(refreshStock)
+  setLoadingState(true)
+
+  requestData(ticker)
   refreshStock = setInterval(function () {
     requestData(ticker)
-  }, 2000)
+  }, 5000)
 }
 
 async function requestData(ticker) {
@@ -86,11 +106,10 @@ async function requestData(ticker) {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      result.ticker = ticker.toUpperCase()
-      result.avg_volume = result["avg volume"]
-      result.high = 1
-      result.low = 1
-      result.close = 1
+      // Do not show loading state for background refresh
+      if (result.symbol.includes(symbol.toUpperCase())) {
+        setLoadingState(false)
+      }
 
       updateCompanyContainer(result)
       updatePriceContainer(result)
@@ -98,13 +117,18 @@ async function requestData(ticker) {
     })
 
     .catch((err) => {
-      console.log(err)
+      setLoadingState(false)
+      clearInterval(refreshStock)
+      // TODO: update ui to reflect failed state
     })
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
+  symbol = searchInput.value
 
-  requestData(searchInput.value)
-  refresh(searchInput.value)
+  requestData(symbol)
+  refresh(symbol)
 }
+
+// refresh(symbol)

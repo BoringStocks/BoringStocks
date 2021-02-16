@@ -28,8 +28,15 @@
         <form class="d-flex" style="padding: 0 12px 0 12px">
           <input id="searchInput" class="form-control me-2" style="border-radius: 12px;" type="search"
             placeholder="Search" aria-label="Search" />
-          <button id="searchButton" class="btn btn-outline-light" style="border-radius: 12px;"
-            type="submit">Search</button>
+          <button id="searchButton" class="btn btn-outline-light" style="border-radius: 12px;" type="submit">
+            <span id="searchSpan">Search</span>
+            <div id="loadingDiv" style="display: none;">
+              <div class="d-flex align-items-center">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span class="sr-only desktopView" style="margin-left: 8px;">Loading...</span>
+              </div>
+            </div>
+          </button>
         </form>
 
         <a target="_blank" href="https://github.com/BoringStocks/BoringStocks">
