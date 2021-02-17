@@ -8,19 +8,23 @@ const priceChangeEls = document.getElementsByClassName("priceChange")
 const openEls = document.getElementsByClassName("open")
 const highEls = document.getElementsByClassName("high")
 const lowEls = document.getElementsByClassName("low")
-const closeEls = document.getElementsByClassName("close")
 const volumeEls = document.getElementsByClassName("volume")
 const avgVolumeEls = document.getElementsByClassName("avgVolume")
 
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
+const searchSpan = document.getElementById("searchSpan")
+const loadingDiv = document.getElementById("loadingDiv")
+
+const shineEls = document.getElementsByClassName("rootContainer")
+const containerEls = document.getElementsByClassName("informationContainer")
 
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
 
-function updateCompanyContainer({ ticker, name }) {
+function updateCompanyContainer({ symbol, name }) {
   for (tickerIndexEl of tickerIndexEls) {
-    tickerIndexEl.innerHTML = ticker
+    tickerIndexEl.innerHTML = symbol
   }
   for (companyNameEl of companyNameEls) {
     companyNameEl.innerHTML = name
@@ -43,25 +47,28 @@ function updatePriceContainer({ current, points_change: { percent, points } }) {
   if (needsAnimationRefresh) {
     const index = document.body.clientWidth <= 992 ? 1 : 0
     const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
-    priceContainerEls[index].classList.remove(animation)
+    priceContainerEls[index].classList.remove("greenPriceUpdate")
+    priceContainerEls[index].classList.remove("redPriceUpdate")
     setTimeout(function () {
       priceContainerEls[index].classList.add(animation)
     }, 0)
   }
 }
 
-function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
+function updateStatsContainer({
+  range: { close, high, low },
+  open,
+  volume,
+  avg_volume,
+}) {
   for (openEl of openEls) {
-    openEl.innerHTML = open
+    openEl.innerHTML = open.toFixed(2)
   }
   for (highEl of highEls) {
-    highEl.innerHTML = high
+    highEl.innerHTML = high.toFixed(2)
   }
   for (lowEl of lowEls) {
-    lowEl.innerHTML = low
-  }
-  for (closeEl of closeEls) {
-    closeEl.innerHTML = close
+    lowEl.innerHTML = low.toFixed(2)
   }
   for (volumeEl of volumeEls) {
     volumeEl.innerHTML = volume
@@ -71,12 +78,40 @@ function updateStatsContainer({ open, high, low, close, volume, avg_volume }) {
   }
 }
 
+function setLoadingState(isLoading) {
+  searchButton.disabled = isLoading
+  searchInput.disabled = isLoading
+
+  searchSpan.style.display = isLoading ? "none" : "block"
+  loadingDiv.style.display = isLoading ? "block" : "none"
+
+  for (shineEl of shineEls) {
+    if (isLoading) {
+      shineEl.classList.add("shine")
+    } else {
+      shineEl.classList.remove("shine")
+    }
+  }
+
+  for (containerEl of containerEls) {
+    if (isLoading) {
+      containerEl.classList.add("hide")
+    } else {
+      containerEl.classList.remove("hide")
+    }
+  }
+}
+
+let symbol = "GME"
 let refreshStock
 function refresh(ticker) {
   clearInterval(refreshStock)
+  setLoadingState(true)
+
+  requestData(ticker)
   refreshStock = setInterval(function () {
     requestData(ticker)
-  }, 2000)
+  }, 5000)
 }
 
 async function requestData(ticker) {
@@ -86,11 +121,10 @@ async function requestData(ticker) {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      result.ticker = ticker.toUpperCase()
-      result.avg_volume = result["avg volume"]
-      result.high = 1
-      result.low = 1
-      result.close = 1
+      // Do not show loading state for background refresh
+      if (result.symbol === symbol.toUpperCase()) {
+        setLoadingState(false)
+      }
 
       updateCompanyContainer(result)
       updatePriceContainer(result)
@@ -98,13 +132,19 @@ async function requestData(ticker) {
     })
 
     .catch((err) => {
-      console.log(err)
+      setLoadingState(false)
+      clearInterval(refreshStock)
+      // TODO: update ui to reflect failed state
     })
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
+  symbol = searchInput.value
 
-  requestData(searchInput.value)
-  refresh(searchInput.value)
+  refresh(symbol)
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  refresh(symbol)
+})

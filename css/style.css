@@ -100,3 +100,36 @@ html {
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
 }
+
+.shine {
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f808 0%,
+    #edeef108 20%,
+    #f6f7f808 40%,
+    #f6f7f808 100%
+  );
+  background-repeat: no-repeat;
+  display: inline-block;
+  position: relative;
+
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
+}
+
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -550px 0;
+  }
+  100% {
+    background-position: 550px 0;
+  }
+}
+
+.hide {
+  opacity: 0;
+}
