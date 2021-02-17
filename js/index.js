@@ -61,10 +61,10 @@ function updateStatsContainer({
   open,
   volume,
   avg_volume,
-  mkt_cap,
+  market_cap,
 }) {
   for (openEl of openEls) {
-    openEl.innerHTML = open.toFixed(2)
+    // openEl.innerHTML = open.toFixed(2)
   }
   for (highEl of highEls) {
     highEl.innerHTML = high.toFixed(2)
@@ -79,7 +79,7 @@ function updateStatsContainer({
     avgVolumeEl.innerHTML = avg_volume
   }
   for (marketCap of marketCaps) {
-    marketCap.innerHTML = mkt_cap
+    marketCap.innerHTML = market_cap
   }
 }
 
