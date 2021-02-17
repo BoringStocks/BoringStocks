@@ -10,6 +10,7 @@ const highEls = document.getElementsByClassName("high")
 const lowEls = document.getElementsByClassName("low")
 const volumeEls = document.getElementsByClassName("volume")
 const avgVolumeEls = document.getElementsByClassName("avgVolume")
+const marketCap = document.getElementsByClassName("mktCap")
 
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
