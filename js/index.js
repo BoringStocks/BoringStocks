@@ -10,6 +10,7 @@ const highEls = document.getElementsByClassName("high")
 const lowEls = document.getElementsByClassName("low")
 const volumeEls = document.getElementsByClassName("volume")
 const avgVolumeEls = document.getElementsByClassName("avgVolume")
+const marketCapEls = document.getElementsByClassName("mktCap")
 
 const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
@@ -60,9 +61,10 @@ function updateStatsContainer({
   open,
   volume,
   avg_volume,
+  market_cap,
 }) {
   for (openEl of openEls) {
-    openEl.innerHTML = open.toFixed(2)
+    // openEl.innerHTML = open.toFixed(2)
   }
   for (highEl of highEls) {
     highEl.innerHTML = high.toFixed(2)
@@ -75,6 +77,9 @@ function updateStatsContainer({
   }
   for (avgVolumeEl of avgVolumeEls) {
     avgVolumeEl.innerHTML = avg_volume
+  }
+  for (marketCapEl of marketCapEls) {
+    marketCapEl.innerHTML = market_cap
   }
 }
 
