@@ -21,6 +21,12 @@ const containerEls = document.getElementsByClassName("informationContainer")
 
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
+const easterEggs = {
+  GME: "🚀",
+  AMC: "💎",
+  AMZN: "📦",
+  AAPL: "🍎",
+}
 
 function updateCompanyContainer({ symbol, name }) {
   for (tickerIndexEl of tickerIndexEls) {
@@ -124,6 +130,10 @@ async function requestData(ticker) {
       // Do not show loading state for background refresh
       if (result.symbol === symbol.toUpperCase()) {
         setLoadingState(false)
+      }
+
+      if (result.symbol in easterEggs) {
+        result.symbol += " " + easterEggs[result.symbol]
       }
 
       updateCompanyContainer(result)
