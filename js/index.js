@@ -8,7 +8,6 @@ const priceChangeEls = document.getElementsByClassName("priceChange")
 const openEls = document.getElementsByClassName("open")
 const highEls = document.getElementsByClassName("high")
 const lowEls = document.getElementsByClassName("low")
-const closeEls = document.getElementsByClassName("close")
 const volumeEls = document.getElementsByClassName("volume")
 const avgVolumeEls = document.getElementsByClassName("avgVolume")
 
@@ -16,6 +15,9 @@ const searchInputEls = document.getElementsByClassName("searchInput")
 const searchButtonEls = document.getElementsByClassName("searchButton")
 const searchSpan = document.getElementById("searchSpan")
 const loadingDiv = document.getElementById("loadingDiv")
+
+const shineEls = document.getElementsByClassName("rootContainer")
+const containerEls = document.getElementsByClassName("informationContainer")
 
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
@@ -60,16 +62,13 @@ function updateStatsContainer({
   avg_volume,
 }) {
   for (openEl of openEls) {
-    openEl.innerHTML = open
+    openEl.innerHTML = open.toFixed(2)
   }
   for (highEl of highEls) {
-    highEl.innerHTML = high
+    highEl.innerHTML = high.toFixed(2)
   }
   for (lowEl of lowEls) {
-    lowEl.innerHTML = low
-  }
-  for (closeEl of closeEls) {
-    closeEl.innerHTML = close
+    lowEl.innerHTML = low.toFixed(2)
   }
   for (volumeEl of volumeEls) {
     volumeEl.innerHTML = volume
@@ -79,12 +78,28 @@ function updateStatsContainer({
   }
 }
 
-function setLoadingState(state) {
-  searchButton.disabled = state
-  searchInput.disabled = state
+function setLoadingState(isLoading) {
+  searchButton.disabled = isLoading
+  searchInput.disabled = isLoading
 
-  searchSpan.style.display = state ? "none" : "block"
-  loadingDiv.style.display = state ? "block" : "none"
+  searchSpan.style.display = isLoading ? "none" : "block"
+  loadingDiv.style.display = isLoading ? "block" : "none"
+
+  for (shineEl of shineEls) {
+    if (isLoading) {
+      shineEl.classList.add("shine")
+    } else {
+      shineEl.classList.remove("shine")
+    }
+  }
+
+  for (containerEl of containerEls) {
+    if (isLoading) {
+      containerEl.classList.add("hide")
+    } else {
+      containerEl.classList.remove("hide")
+    }
+  }
 }
 
 let symbol = "GME"
@@ -107,7 +122,7 @@ async function requestData(ticker) {
     .then((response) => response.json())
     .then((result) => {
       // Do not show loading state for background refresh
-      if (result.symbol.includes(symbol.toUpperCase())) {
+      if (result.symbol === symbol.toUpperCase()) {
         setLoadingState(false)
       }
 
@@ -127,8 +142,9 @@ searchButton.onclick = (event) => {
   event.preventDefault()
   symbol = searchInput.value
 
-  requestData(symbol)
   refresh(symbol)
 }
 
-// refresh(symbol)
+document.addEventListener("DOMContentLoaded", function () {
+  refresh(symbol)
+})

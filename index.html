@@ -20,6 +20,7 @@
   <main>
 
 
+
     <!--  NAVBAR  -->
     <nav class="navbar navbar-dark nav-bg">
       <div class="container" style="opacity: 0.85; flex-wrap: nowrap;">
@@ -57,61 +58,65 @@
       <div class="container transparent mainPadding desktopView">
         <div class="row text-light text-center">
           <!--  Ticker Name Container  -->
-          <div class="col bg-dark colStyles headContPadding" style="margin-right: 24px;">
-            <!-- Ticker Index -->
-            <h1 class="tickerIndex">GME</h1>
-            <!-- Ticker Company Name -->
-            <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
+          <div class="col bg-dark colStyles headContPadding rootContainer shine" style="margin-right: 24px;">
+            <div class="informationContainer hide">
+              <!-- Ticker Index -->
+              <h1 class="tickerIndex">GME</h1>
+              <!-- <span style="font-size: 13px;">(Prev)</span> -->
+              <!-- Ticker Company Name -->
+              <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
+            </div>
           </div>
 
           <!--  Ticker Price Container -->
-          <div class="col bg-dark colStyles headContPadding priceContainer" style="margin-left: 24px;">
-            <!-- Current Price -->
-            <h1 class="currentPrice">225.00</h1>
-            <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
+          <div class="col bg-dark colStyles headContPadding priceContainer rootContainer shine"
+            style="margin-left: 24px;">
+            <div class="informationContainer hide">
+              <!-- Current Price -->
+              <h1 class="currentPrice">225.00</h1>
+              <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
+            </div>
           </div>
         </div>
 
         <div class="row text-light text-center" style="margin-top: 48px;">
           <!--  Stock information container  -->
-          <div class="col bg-dark colStyles x-info-col" style="padding: 20px; margin-right: 24px;">
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
-              <!-- Open -->
-              <h4 class="open">316.56</h4>
-            </div>
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">High</h4>
-              <!-- High -->
-              <h4 class="high">322.00</h4>
-            </div>
-            <!-- Low -->
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Low</h4>
-              <h4 class="low">212.00</h4>
-            </div>
-            <!-- Close -->
-            <div class="x-info-row">
-              <!-- <span style="font-size: 13px;">(Prev)</span> -->
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Close</h4>
-              <h4 class="close">225.00</h4>
-            </div>
-            <hr>
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Volume</h4>
-              <!-- Volume -->
-              <h4 class="volume">74,491,412</h4>
-            </div>
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Avg Volume</h4>
-              <!-- Average Volume -->
-              <h4 class="avgVolume">5,123,523</h4>
+          <div class="col bg-dark colStyles x-info-col rootContainer shine" style="padding: 20px; margin-right: 24px;">
+            <div class="informationContainer hide">
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
+                <!-- Open -->
+                <h4 class="open">316.56</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">High</h4>
+                <!-- High -->
+                <h4 class="high">322.00</h4>
+              </div>
+              <!-- Low -->
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Low</h4>
+                <h4 class="low">212.00</h4>
+              </div>
+              <hr>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Volume</h4>
+                <!-- Volume -->
+                <h4 class="volume">74,491,412</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Avg Volume</h4>
+                <!-- Average Volume -->
+                <h4 class="avgVolume">5,123,523</h4>
+              </div>
             </div>
           </div>
 
           <!--  CHART JS GRAPH  -->
-          <div class="col bg-dark colStyles" style="padding: 20px; margin-left: 24px;">
+          <div class="col bg-dark colStyles rootContainer shine" style="padding: 20px; margin-left: 24px;">
+            <div class="informationContainer hide">
 
+            </div>
           </div>
         </div>
       </div>
@@ -123,60 +128,60 @@
     <section>
       <div class="container transparent mainPadding mobileView">
         <div class="row text-light text-center" style="margin-bottom: 24px;">
-          <div class="col-md-12 bg-dark colStyles headContPadding priceContainer">
-            <!-- Ticker Index -->
-            <h1 class="tickerIndex">GME</h1>
-            <!-- Ticker Company Name -->
-            <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
-            <hr>
-            <!-- Current Price -->
-            <h1 class="currentPrice">225.00</h1>
-            <!-- Price Change -->
-            <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
+          <div class="col-md-12 bg-dark colStyles headContPadding priceContainer rootContainer shine">
+            <div class="informationContainer hide">
+              <!-- Ticker Index -->
+              <h1 class="tickerIndex">GME</h1>
+              <!-- Ticker Company Name -->
+              <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
+              <hr>
+              <!-- Current Price -->
+              <h1 class="currentPrice">225.00</h1>
+              <!-- Price Change -->
+              <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
+            </div>
           </div>
         </div>
 
         <div class="row text-light text-center">
           <!--  ChartJS Graph  -->
-          <div class="col-md-12 bg-dark colStyles" style="padding: 24px; height: 300px;">
+          <div class="col-md-12 bg-dark colStyles rootContainer shine" style="padding: 24px; height: 300px;">
+            <div class="informationContainer hide">
 
+            </div>
           </div>
         </div>
 
         <div class="row text-light text-center" style="margin-top: 24px;">
           <!--  Stock Information Container  -->
-          <div class="col-sm-12 bg-dark colStyles x-info-col" style="padding: 24px;">
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
-              <!-- Open -->
-              <h4 class="open">316.56</h4>
-            </div>
-            <div class="x-info-row">
-              <h5 style="color: rgba(255, 255, 255, 0.425);">High</h5>
-              <!-- High -->
-              <h4 class="high">322.00</h4>
-            </div>
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Low</h4>
-              <!-- Low -->
-              <h4 class="low">212.00</h4>
-            </div>
-            <div class="x-info-row">
-              <!-- <span style="font-size: 13px;">(Prev)</span> -->
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Close</h4>
-              <!-- Close -->
-              <h4 class="close">225.00</h4>
-            </div>
-            <hr>
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Volume</h4>
-              <!-- Volume -->
-              <h4 class="volume">74,491,412</h4>
-            </div>
-            <div class="x-info-row">
-              <h4 style="color: rgba(255, 255, 255, 0.425);">Avg Volume</h4>
-              <!-- Average Volume-->
-              <h4 class="avgVolume">5,123,523</h4>
+          <div class="col-sm-12 bg-dark colStyles x-info-col rootContainer shine" style="padding: 24px;">
+            <div class="informationContainer hide">
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
+                <!-- Open -->
+                <h4 class="open">316.56</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">High</h4>
+                <!-- High -->
+                <h4 class="high">322.00</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Low</h4>
+                <!-- Low -->
+                <h4 class="low">212.00</h4>
+              </div>
+              <hr>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Volume</h4>
+                <!-- Volume -->
+                <h4 class="volume">74,491,412</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 style="color: rgba(255, 255, 255, 0.425);">Avg Volume</h4>
+                <!-- Average Volume-->
+                <h4 class="avgVolume">5,123,523</h4>
+              </div>
             </div>
           </div>
         </div>
