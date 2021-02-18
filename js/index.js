@@ -12,8 +12,9 @@ const volumeEls = document.getElementsByClassName("volume")
 const avgVolumeEls = document.getElementsByClassName("avgVolume")
 const marketCapEls = document.getElementsByClassName("mktCap")
 
-const searchInputEls = document.getElementsByClassName("searchInput")
-const searchButtonEls = document.getElementsByClassName("searchButton")
+const searchForm = document.getElementById("formRoot")
+const searchInput = document.getElementById("searchInput")
+const searchButton = document.getElementById("searchButton")
 const searchSpan = document.getElementById("searchSpan")
 const loadingDiv = document.getElementById("loadingDiv")
 
@@ -151,13 +152,18 @@ async function requestData(ticker) {
     .catch((err) => {
       setLoadingState(false)
       clearInterval(refreshStock)
-      // TODO: update ui to reflect failed state
+
+      searchForm.classList.remove("shakeAnimation")
+      setTimeout(function () {
+        searchForm.classList.add("shakeAnimation")
+      }, 0)
     })
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
   symbol = searchInput.value
+  searchInput.value = ""
 
   refresh(symbol)
 }
@@ -165,3 +171,16 @@ searchButton.onclick = (event) => {
 document.addEventListener("DOMContentLoaded", function () {
   refresh(symbol)
 })
+
+window.addEventListener(
+  "keydown",
+  function (event) {
+    if (event.key === "/") {
+      searchInput.focus()
+      setTimeout(function () {
+        searchInput.value = ""
+      }, 0)
+    }
+  },
+  true
+)

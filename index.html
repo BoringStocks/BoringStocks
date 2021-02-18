@@ -18,6 +18,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
   <link rel="manifest" href="/icons/site.webmanifest">
   <link rel="shortcut icon" href="/icons/favicon.ico">
+
+  <meta name="color-scheme" content="dark">
 </head>
 
 <body>
@@ -28,12 +30,18 @@
     <!--  NAVBAR  -->
     <nav class="navbar navbar-dark nav-bg">
       <div class="container" style="opacity: 0.85; flex-wrap: nowrap;">
+        <!-- Logo -->
         <a style="font-size: 33px; line-height: 38px;">💸</a>
 
-        <form class="d-flex" style="padding: 0 12px 0 12px">
-          <input id="searchInput" class="form-control me-2" style="border-radius: 12px;" type="search"
-            placeholder="Search" aria-label="Search" />
-          <button id="searchButton" class="btn btn-outline-light" style="border-radius: 12px;" type="submit">
+        <!-- Form -->
+        <form id="formRoot" class="d-flex" style="padding: 0 12px 0 12px">
+          <div id="searchContainer">
+            <input id="searchInput" class="form-control" type="search" placeholder="Search Stock" autocomplete="off"
+              aria-label="Search" />
+            <kdb id="searchKey">/</kdb>
+          </div>
+
+          <button id="searchButton" class="btn btn-outline-light" disabled type="submit">
             <span id="searchSpan">Search</span>
             <div id="loadingDiv" style="display: none;">
               <div class="d-flex align-items-center">
@@ -44,6 +52,7 @@
           </button>
         </form>
 
+        <!-- Github Icon -->
         <a target="_blank" href="https://github.com/BoringStocks/BoringStocks">
           <svg width="33" height="33" viewBox="0 0 33 33">
             <title>Github Link</title>
