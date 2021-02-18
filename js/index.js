@@ -22,6 +22,7 @@ const containerEls = document.getElementsByClassName("informationContainer")
 
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
+const secondaryLabel = "rgba(255, 255, 255, 0.425)"
 
 function updateCompanyContainer({ symbol, name }) {
   for (tickerIndexEl of tickerIndexEls) {
@@ -32,7 +33,11 @@ function updateCompanyContainer({ symbol, name }) {
   }
 }
 
-function updatePriceContainer({ current, points_change: { percent, points } }) {
+function updatePriceContainer({
+  current,
+  points_change: { percent, points },
+  market_status,
+}) {
   const needsAnimationRefresh = currentPriceEls[0].innerHTML != current
   for (currentPriceEl of currentPriceEls) {
     currentPriceEl.innerHTML = current
@@ -41,11 +46,18 @@ function updatePriceContainer({ current, points_change: { percent, points } }) {
   const isPositive = points >= 0
   const color = isPositive ? greenColor : redColor
   for (priceChangeEl of priceChangeEls) {
-    priceChangeEl.innerHTML = `${points} (${percent}%)`
-    priceChangeEl.style.color = color
+    if (market_status === 1) {
+      // Market Open
+      priceChangeEl.innerHTML = `${points} (${percent}%)`
+      priceChangeEl.style.color = color
+    } else {
+      // Market Closed
+      priceChangeEl.innerHTML = `Market Closed`
+      priceChangeEl.style.color = secondaryLabel
+    }
   }
 
-  if (needsAnimationRefresh) {
+  if (needsAnimationRefresh && market_status === 1) {
     const index = document.body.clientWidth <= 992 ? 1 : 0
     const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
     priceContainerEls[index].classList.remove("greenPriceUpdate")
@@ -57,14 +69,14 @@ function updatePriceContainer({ current, points_change: { percent, points } }) {
 }
 
 function updateStatsContainer({
-  range: { close, high, low },
+  range: { high, low },
   open,
   volume,
   avg_volume,
   market_cap,
 }) {
   for (openEl of openEls) {
-    // openEl.innerHTML = open.toFixed(2)
+    openEl.innerHTML = open.toFixed(2)
   }
   for (highEl of highEls) {
     highEl.innerHTML = high.toFixed(2)
@@ -73,10 +85,10 @@ function updateStatsContainer({
     lowEl.innerHTML = low.toFixed(2)
   }
   for (volumeEl of volumeEls) {
-    volumeEl.innerHTML = volume
+    volumeEl.innerHTML = volume.toLocaleString()
   }
   for (avgVolumeEl of avgVolumeEls) {
-    avgVolumeEl.innerHTML = avg_volume
+    avgVolumeEl.innerHTML = avg_volume.toLocaleString()
   }
   for (marketCapEl of marketCapEls) {
     marketCapEl.innerHTML = market_cap
@@ -120,7 +132,7 @@ function refresh(ticker) {
 }
 
 async function requestData(ticker) {
-  const api = "https://stonkscraper.herokuapp.com"
+  const api = "https://api.boringstocks.live/v1"
   const url = `${api}/${ticker}`
 
   await fetch(url)
