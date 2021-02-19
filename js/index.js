@@ -35,7 +35,18 @@ function updateCompanyContainer({ symbol, name }) {
   }
 }
 
-function updateTabTitle({symbol})
+function updateTabTitle({
+  symbol,
+  current,
+  points_change: { percent, points },
+  market_status,
+}) {
+  if (market_status === 1) {
+    tabTitle.innerHTML = `${symbol} | $${current} | ${points} | (${percent})`
+  } else {
+    tabTitle.innerHTML = `Market Closed | ${symbol} | $${current}`
+  }
+}
 
 function updatePriceContainer({
   current,
@@ -150,6 +161,7 @@ async function requestData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
+      updateTabTitle(result)
     })
 
     .catch((err) => {
