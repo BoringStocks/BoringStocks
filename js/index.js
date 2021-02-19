@@ -17,6 +17,7 @@ const searchInput = document.getElementById("searchInput")
 const searchButton = document.getElementById("searchButton")
 const searchSpan = document.getElementById("searchSpan")
 const loadingDiv = document.getElementById("loadingDiv")
+const tabTitle = document.getElementById("tabTitle")
 
 const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
@@ -34,14 +35,21 @@ function updateCompanyContainer({ symbol, name }) {
   }
 }
 
-function updatePriceContainer({
-  current,
-  points_change: { percent, points },
-  market_status,
-}) {
+function updateTabTitle({ symbol, current, points_change: { percent, points }, market_status }) {
+  if (market_status === 1) {
+    tabTitle.innerHTML = `${symbol} | 
+    ${current.toFixed(2)} | 
+    ${points.toFixed(2)} 
+    (${percent.toFixed(2)}%)`
+  } else {
+    tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | Market Closed`
+  }
+}
+
+function updatePriceContainer({ current, points_change: { percent, points }, market_status }) {
   const needsAnimationRefresh = currentPriceEls[0].innerHTML != current
   for (currentPriceEl of currentPriceEls) {
-    currentPriceEl.innerHTML = current
+    currentPriceEl.innerHTML = current.toFixed(2)
   }
 
   const isPositive = points >= 0
@@ -49,7 +57,7 @@ function updatePriceContainer({
   for (priceChangeEl of priceChangeEls) {
     if (market_status === 1) {
       // Market Open
-      priceChangeEl.innerHTML = `${points} (${percent}%)`
+      priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
       priceChangeEl.style.color = color
     } else {
       // Market Closed
@@ -69,13 +77,7 @@ function updatePriceContainer({
   }
 }
 
-function updateStatsContainer({
-  range: { high, low },
-  open,
-  volume,
-  avg_volume,
-  market_cap,
-}) {
+function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, market_cap }) {
   for (openEl of openEls) {
     openEl.innerHTML = open.toFixed(2)
   }
@@ -215,6 +217,7 @@ async function requestData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
+      updateTabTitle(result)
       updateStockGraph(result.historical)
     })
 
