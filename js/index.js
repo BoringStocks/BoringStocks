@@ -96,6 +96,74 @@ function updateStatsContainer({
   }
 }
 
+function updateStockGraph(data) {
+  console.log(data)
+  
+  let dates = []
+  let points = []
+  for (point of data) {
+    dates.push(point.date.slice(6))
+    points.push(point.close)
+  }
+
+  let lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
+  let stepSize = Math.abs(points[0] - points[points.length - 1])
+
+  let gridStyles = {
+    drawBorder: false,
+    drawOnChartArea: false,
+    drawTicks: false
+  }
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: dates,
+          datasets: [{
+              label: 'Price',
+              data: points,
+              borderColor: [
+                  lineColor
+              ],
+              pointBorderColor: lineColor,
+              borderWidth: 5,
+              fill: false,
+              lineTension: 0,
+              responsive: true,
+              maintainAspectRatio: false
+          }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+       animation: {
+        duration: 0
+        },
+        scales: { 
+          yAxes: [{
+              ticks: {
+                fontColor: secondaryLabel,
+                fontSize: 16,
+                stepSize: 4,
+                padding: 10
+              },
+              gridLines: gridStyles,
+          }],
+          xAxes: [{
+            ticks: {
+              fontColor: secondaryLabel,
+              fontSize: 16,
+              padding: 10
+            },
+            gridLines: gridStyles,
+        }],
+      }
+      }
+  });
+}
+
 function setLoadingState(isLoading) {
   searchButton.disabled = isLoading
   searchInput.disabled = isLoading
@@ -147,6 +215,7 @@ async function requestData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
+      updateStockGraph(result.historical)
     })
 
     .catch((err) => {
