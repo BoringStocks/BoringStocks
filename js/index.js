@@ -17,6 +17,7 @@ const searchInput = document.getElementById("searchInput")
 const searchButton = document.getElementById("searchButton")
 const searchSpan = document.getElementById("searchSpan")
 const loadingDiv = document.getElementById("loadingDiv")
+const tabTitle = document.getElementById("tabTitle")
 
 const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
@@ -33,6 +34,8 @@ function updateCompanyContainer({ symbol, name }) {
     companyNameEl.innerHTML = name
   }
 }
+
+function updateTabTitle({symbol})
 
 function updatePriceContainer({
   current,
