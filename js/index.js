@@ -17,6 +17,7 @@ const searchInput = document.getElementById("searchInput")
 const searchButton = document.getElementById("searchButton")
 const searchSpan = document.getElementById("searchSpan")
 const loadingDiv = document.getElementById("loadingDiv")
+const tabTitle = document.getElementById("tabTitle")
 
 const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
@@ -31,6 +32,19 @@ function updateCompanyContainer({ symbol, name }) {
   }
   for (companyNameEl of companyNameEls) {
     companyNameEl.innerHTML = name
+  }
+}
+
+function updateTabTitle({
+  symbol,
+  current,
+  points_change: { percent, points },
+  market_status,
+}) {
+  if (market_status === 1) {
+    tabTitle.innerHTML = `${symbol} | ${current} | ${points} (${percent}%)`
+  } else {
+    tabTitle.innerHTML = `${symbol} | ${current} | Market Closed`
   }
 }
 
@@ -147,6 +161,7 @@ async function requestData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
+      updateTabTitle(result)
     })
 
     .catch((err) => {
