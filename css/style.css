@@ -194,14 +194,14 @@ html {
   border-radius: 8px;
 }
 
-#searchButton {
+.buttonStyle {
   border-radius: 12px;
-  border-color: #30363d;
+  border-color: #30363d !important;
 }
 
-#searchButton:hover {
-  background-color: rgb(34, 38, 44);
-  color: white;
+#buttonStyle:hover {
+  background-color: rgb(34, 38, 44) !important;
+  color: white !important;
 }
 
 @media only screen and (max-width: 992px) {
