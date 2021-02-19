@@ -1,3 +1,5 @@
+import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
+
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
 
@@ -22,15 +24,11 @@ const tabTitle = document.getElementById("tabTitle")
 const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
 
-const greenColor = "#32D74B"
-const redColor = "#FF453A"
-const secondaryLabel = "rgba(255, 255, 255, 0.425)"
-
 function updateCompanyContainer({ symbol, name }) {
-  for (tickerIndexEl of tickerIndexEls) {
+  for (let tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = symbol
   }
-  for (companyNameEl of companyNameEls) {
+  for (let companyNameEl of companyNameEls) {
     companyNameEl.innerHTML = name
   }
 }
@@ -48,13 +46,13 @@ function updateTabTitle({ symbol, current, points_change: { percent, points }, m
 
 function updatePriceContainer({ current, points_change: { percent, points }, market_status }) {
   const needsAnimationRefresh = currentPriceEls[0].innerHTML != current
-  for (currentPriceEl of currentPriceEls) {
+  for (let currentPriceEl of currentPriceEls) {
     currentPriceEl.innerHTML = current.toFixed(2)
   }
 
   const isPositive = points >= 0
   const color = isPositive ? greenColor : redColor
-  for (priceChangeEl of priceChangeEls) {
+  for (let priceChangeEl of priceChangeEls) {
     if (market_status === 1) {
       // Market Open
       priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
@@ -78,32 +76,32 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
 }
 
 function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, market_cap }) {
-  for (openEl of openEls) {
+  for (let openEl of openEls) {
     openEl.innerHTML = open.toFixed(2)
   }
-  for (highEl of highEls) {
+  for (let highEl of highEls) {
     highEl.innerHTML = high.toFixed(2)
   }
-  for (lowEl of lowEls) {
+  for (let lowEl of lowEls) {
     lowEl.innerHTML = low.toFixed(2)
   }
-  for (volumeEl of volumeEls) {
+  for (let volumeEl of volumeEls) {
     volumeEl.innerHTML = volume.toLocaleString()
   }
-  for (avgVolumeEl of avgVolumeEls) {
+  for (let avgVolumeEl of avgVolumeEls) {
     avgVolumeEl.innerHTML = avg_volume.toLocaleString()
   }
-  for (marketCapEl of marketCapEls) {
+  for (let marketCapEl of marketCapEls) {
     marketCapEl.innerHTML = market_cap
   }
 }
 
 function updateStockGraph(data) {
   console.log(data)
-  
+
   let dates = []
   let points = []
-  for (point of data) {
+  for (let point of data) {
     dates.push(point.date.slice(6))
     points.push(point.close)
   }
@@ -114,56 +112,60 @@ function updateStockGraph(data) {
   let gridStyles = {
     drawBorder: false,
     drawOnChartArea: false,
-    drawTicks: false
+    drawTicks: false,
   }
 
-  var ctx = document.getElementById('myChart').getContext('2d');
+  var ctx = document.getElementById("myChart").getContext("2d")
   var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: dates,
-          datasets: [{
-              label: 'Price',
-              data: points,
-              borderColor: [
-                  lineColor
-              ],
-              pointBorderColor: lineColor,
-              borderWidth: 5,
-              fill: false,
-              lineTension: 0,
-              responsive: true,
-              maintainAspectRatio: false
-          }]
+    type: "line",
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: "Price",
+          data: points,
+          borderColor: [lineColor],
+          pointBorderColor: lineColor,
+          borderWidth: 5,
+          fill: false,
+          lineTension: 0,
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      ],
+    },
+    options: {
+      legend: {
+        display: false,
       },
-      options: {
-        legend: {
-          display: false
-        },
-       animation: {
-        duration: 0
-        },
-        scales: { 
-          yAxes: [{
-              ticks: {
-                fontColor: secondaryLabel,
-                fontSize: 16,
-                stepSize: 4,
-                padding: 10
-              },
-              gridLines: gridStyles,
-          }],
-          xAxes: [{
+      animation: {
+        duration: 0,
+      },
+      scales: {
+        yAxes: [
+          {
             ticks: {
               fontColor: secondaryLabel,
               fontSize: 16,
-              padding: 10
+              stepSize: 4,
+              padding: 10,
             },
             gridLines: gridStyles,
-        }],
-      }
-      }
-  });
+          },
+        ],
+        xAxes: [
+          {
+            ticks: {
+              fontColor: secondaryLabel,
+              fontSize: 16,
+              padding: 10,
+            },
+            gridLines: gridStyles,
+          },
+        ],
+      },
+    },
+  })
 }
 
 function setLoadingState(isLoading) {
@@ -173,7 +175,7 @@ function setLoadingState(isLoading) {
   searchSpan.style.display = isLoading ? "none" : "block"
   loadingDiv.style.display = isLoading ? "block" : "none"
 
-  for (shineEl of shineEls) {
+  for (let shineEl of shineEls) {
     if (isLoading) {
       shineEl.classList.add("shine")
     } else {
@@ -181,7 +183,7 @@ function setLoadingState(isLoading) {
     }
   }
 
-  for (containerEl of containerEls) {
+  for (let containerEl of containerEls) {
     if (isLoading) {
       containerEl.classList.add("hide")
     } else {
@@ -203,7 +205,6 @@ function refresh(ticker) {
 }
 
 async function requestData(ticker) {
-  const api = "https://api.boringstocks.live/v1"
   const url = `${api}/${ticker}`
 
   await fetch(url)
@@ -222,6 +223,7 @@ async function requestData(ticker) {
     })
 
     .catch((err) => {
+      console.log(err)
       setLoadingState(false)
       clearInterval(refreshStock)
 
