@@ -1,0 +1,9 @@
+.buttonStyle {
+  border-radius: 12px;
+  border-color: #30363d !important;
+}
+
+.buttonStyle:hover {
+  background-color: rgb(34, 38, 44) !important;
+  color: white !important;
+}
