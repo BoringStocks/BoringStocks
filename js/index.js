@@ -44,7 +44,7 @@ function updateTabTitle({
   if (market_status === 1) {
     tabTitle.innerHTML = `${symbol} | ${current} | ${points} | (${percent})`
   } else {
-    tabTitle.innerHTML = `${symbol} | $${current} | Market Closed`
+    tabTitle.innerHTML = `${symbol} | ${current} | Market Closed`
   }
 }
 
