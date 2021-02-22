@@ -1,5 +1,7 @@
 import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
 
+const tickerIndexEls = document.getElementsByClassName("tickerIndex")
+
 const ctx = document.getElementById("myChart").getContext("2d")
 
 const fiveDaysButtonEls = document.getElementsByClassName("5DButton")
@@ -12,6 +14,15 @@ const gridStyles = {
   drawBorder: false,
   drawOnChartArea: false,
   drawTicks: false,
+}
+
+const layout = {
+  padding: {
+    top: 8,
+    right: 8,
+    left: 8,
+    bottom: 8,
+  },
 }
 
 const yAxes = [
@@ -39,9 +50,44 @@ const xAxes = [
   },
 ]
 
-export function updateChartContainer(data) {
-  console.log(data)
+let actualChart
+function createChart(data) {
+  const dates = []
+  const points = []
 
+  actualChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: "Price",
+          data: points,
+          borderWidth: 4,
+          fill: false,
+          lineTension: 0.2, // Subject to change
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      ],
+    },
+    options: {
+      layout: layout,
+      legend: {
+        display: false,
+      },
+      animation: {
+        duration: 0,
+      },
+      scales: {
+        yAxes: yAxes,
+        xAxes: xAxes,
+      },
+    },
+  })
+}
+
+export function updateChart(data) {
   let dates = []
   let points = []
   for (let point of data) {
@@ -50,47 +96,36 @@ export function updateChartContainer(data) {
   }
 
   let lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
-  let stepSize = Math.abs(points[0] - points[points.length - 1])
+  // let stepSize = Math.abs(points[0] - points[points.length - 1])
 
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: dates,
-      datasets: [
-        {
-          label: "Price",
-          data: points,
-          borderColor: [lineColor],
-          pointBorderColor: lineColor,
-          borderWidth: 5,
-          fill: false,
-          lineTension: 0,
-          responsive: true,
-          maintainAspectRatio: false,
-        },
-      ],
-    },
-    options: {
-      layout: {
-        padding: {
-          top: 8,
-          right: 8,
-          left: 8,
-          bottom: 8,
-        },
-      },
-      legend: {
-        display: false,
-      },
-      animation: {
-        duration: 0,
-      },
-      scales: {
-        yAxes: xAxes,
-        xAxes: xAxes,
-      },
-    },
+  actualChart.data.labels = dates
+  actualChart.data.datasets.forEach((dataset) => {
+    dataset.data = points
+    dataset.borderColor = [lineColor]
+    dataset.pointBorderColor = lineColor
   })
+
+  actualChart.update()
+}
+
+let lastButtonPressedEls = []
+async function requestChartData(duration) {
+  const ticker = tickerIndexEls[0].innerHTML
+  const url = `${api}/${ticker}/historical/${duration}`
+
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      if (actualChart) {
+        updateChart(result.historical)
+      } else {
+        createChart(result.historical)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 function updateButtonEls(buttonEls, updater) {
@@ -111,8 +146,9 @@ function disableButton(buttonEl) {
   buttonEl.querySelector(".loader").style.display = null
 }
 
-let lastButtonPressedEls = []
-function updateChartV2(duration) {
+function updateChartContainer(duration) {
+  // Disable all buttons
+  // only show loader on btn pressed
   switch (duration) {
     case "5_days":
       updateButtonEls(fiveDaysButtonEls, disableButton)
@@ -139,30 +175,34 @@ function updateChartV2(duration) {
       updateButtonEls(maxButtonEls, disableButton)
       lastButtonPressedEls = maxButtonEls
   }
+
+  requestChartData(duration)
 }
 
 updateButtonEls(fiveDaysButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartV2("5_days")
+    updateChartContainer("5_days")
   }
 })
 updateButtonEls(oneMonthButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartV2("1_month")
+    updateChartContainer("1_month")
   }
 })
 updateButtonEls(sixMonthsButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartV2("6_months")
+    updateChartContainer("6_months")
   }
 })
 updateButtonEls(oneYearButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartV2("1_year")
+    updateChartContainer("1_year")
   }
 })
 updateButtonEls(maxButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartV2("max")
+    updateChartContainer("max")
   }
 })
+
+createChart()

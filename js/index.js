@@ -1,5 +1,4 @@
 import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
-import { updateChartContainer } from "./chart.js"
 
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
@@ -147,7 +146,6 @@ async function requestData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
-      updateChartContainer(result.historical)
       updateTabTitle(result)
     })
 
