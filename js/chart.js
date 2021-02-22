@@ -2,26 +2,30 @@ import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
 
 const ctx = document.getElementById("myChart").getContext("2d")
 
+const fiveDaysButtonEls = document.getElementsByClassName("5DButton")
+const oneMonthButtonEls = document.getElementsByClassName("1MButton")
+const sixMonthsButtonEls = document.getElementsByClassName("6MButton")
+const oneYearButtonEls = document.getElementsByClassName("1YButton")
+const maxButtonEls = document.getElementsByClassName("MAXButton")
+
 const gridStyles = {
   drawBorder: false,
   drawOnChartArea: false,
   drawTicks: false,
 }
 
-function getYAxes(stepSize) {
-  return [
-    {
-      ticks: {
-        fontColor: secondaryLabel,
-        fontSize: 16,
-        stepSize: 4,
-        padding: 10,
-        stepSize: stepSize,
-      },
-      gridLines: gridStyles,
+const yAxes = [
+  {
+    ticks: {
+      fontColor: secondaryLabel,
+      fontSize: 16,
+      stepSize: 4,
+      padding: 10,
     },
-  ]
-}
+    gridLines: gridStyles,
+    display: false,
+  },
+]
 
 const xAxes = [
   {
@@ -31,6 +35,7 @@ const xAxes = [
       padding: 10,
     },
     gridLines: gridStyles,
+    display: false,
   },
 ]
 
@@ -66,6 +71,14 @@ export function updateChartContainer(data) {
       ],
     },
     options: {
+      layout: {
+        padding: {
+          top: 8,
+          right: 8,
+          left: 8,
+          bottom: 8,
+        },
+      },
       legend: {
         display: false,
       },
@@ -73,9 +86,83 @@ export function updateChartContainer(data) {
         duration: 0,
       },
       scales: {
-        yAxes: getYAxes(stepSize),
+        yAxes: xAxes,
         xAxes: xAxes,
       },
     },
   })
 }
+
+function updateButtonEls(buttonEls, updater) {
+  for (let buttonEl of buttonEls) {
+    updater(buttonEl)
+  }
+}
+
+function enableButton(buttonEl) {
+  buttonEl.disabled = false
+  buttonEl.querySelector(".label").style.display = null
+  buttonEl.querySelector(".loader").style.display = "none"
+}
+
+function disableButton(buttonEl) {
+  buttonEl.disabled = true
+  buttonEl.querySelector(".label").style.display = "none"
+  buttonEl.querySelector(".loader").style.display = null
+}
+
+let lastButtonPressedEls = []
+function updateChartV2(duration) {
+  switch (duration) {
+    case "5_days":
+      updateButtonEls(fiveDaysButtonEls, disableButton)
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      lastButtonPressedEls = fiveDaysButtonEls
+      break
+    case "1_month":
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(oneMonthButtonEls, disableButton)
+      lastButtonPressedEls = oneMonthButtonEls
+      break
+    case "6_months":
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(sixMonthsButtonEls, disableButton)
+      lastButtonPressedEls = sixMonthsButtonEls
+      break
+    case "1_year":
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(oneYearButtonEls, disableButton)
+      lastButtonPressedEls = oneYearButtonEls
+      break
+    default:
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(maxButtonEls, disableButton)
+      lastButtonPressedEls = maxButtonEls
+  }
+}
+
+updateButtonEls(fiveDaysButtonEls, (buttonEl) => {
+  buttonEl.onclick = () => {
+    updateChartV2("5_days")
+  }
+})
+updateButtonEls(oneMonthButtonEls, (buttonEl) => {
+  buttonEl.onclick = () => {
+    updateChartV2("1_month")
+  }
+})
+updateButtonEls(sixMonthsButtonEls, (buttonEl) => {
+  buttonEl.onclick = () => {
+    updateChartV2("6_months")
+  }
+})
+updateButtonEls(oneYearButtonEls, (buttonEl) => {
+  buttonEl.onclick = () => {
+    updateChartV2("1_year")
+  }
+})
+updateButtonEls(maxButtonEls, (buttonEl) => {
+  buttonEl.onclick = () => {
+    updateChartV2("max")
+  }
+})

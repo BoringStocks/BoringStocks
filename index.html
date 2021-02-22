@@ -29,9 +29,6 @@
 
 <body>
   <main>
-
-
-
     <!--  NAVBAR  -->
     <nav class="navbar navbar-dark nav-bg">
       <div class="container" style="opacity: 0.85; flex-wrap: nowrap;">
@@ -70,8 +67,7 @@
       </div>
     </nav>
 
-
-
+    <!-- Desktop -->
     <section>
       <div class="container transparent mainPadding desktopView">
         <div class="row text-light text-center">
@@ -96,7 +92,7 @@
           </div>
         </div>
 
-        <div class="row text-light text-center" style="margin-top: 48px;">
+        <div class="row text-light text-center" style="margin-top: 48px; flex-wrap: nowrap;">
           <!--  Stock information container  -->
           <div class="col bg-dark colStyles x-info-col rootContainer shine" style="margin-right: 24px;">
             <div class="informationContainer hide">
@@ -136,29 +132,45 @@
 
           <!--  CHART JS GRAPH  -->
           <div class="col bg-dark colStyles rootContainer shine" style="margin-left: 24px;">
-            <div class="informationContainer hide d-flex">
-
-              <div class="btn-group-vertical" role="group" style="margin-right: 16px;">
-                <button class="btn btn-outline-light buttonStyle">5D</button>
-                <button class="btn btn-outline-light buttonStyle">1M</button>
-                <button class="btn btn-outline-light buttonStyle">3M</button>
-                <button class="btn btn-outline-light buttonStyle">6M</button>
-                <button class="btn btn-outline-light buttonStyle">1Y</button>
+            <div class="informationContainer hide d-flex h-100">
+              <div class="btn-group-vertical" role="group" style="margin-right: 16px; min-width: 50px;">
+                <button class="btn btn-outline-light buttonStyle 5DButton">
+                  <span class="label">5D</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 1MButton">
+                  <span class="label">1M</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 6MButton">
+                  <span class="label">6M</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 1YButton">
+                  <span class="label">1Y</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle MAXButton">
+                  <span class="label">∞</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
               </div>
 
               <div style="position: relative; flex-grow: 2;">
                 <canvas id="myChart"></canvas>
               </div>
-
             </div>
           </div>
         </div>
       </div>
     </section>
 
-
-
-
+    <!-- Mobile -->
     <section>
       <div class="container transparent mainPadding mobileView">
         <div class="row text-light text-center" style="margin-bottom: 24px;">
@@ -225,15 +237,15 @@
       </div>
     </section>
 
-
+    <!-- Footer -->
     <div class="footer">
       <div class="container" style="display: flex; justify-content: space-between;">
         <h6 style="color: #FFFFFF; opacity: 0.55; font-weight: 300;">Designed in California</h6>
         <h6 style="color: #FFFFFF; opacity: 0.55; font-weight: 300;">&#169 BoringStocks 2021</h6>
       </div>
     </div>
-
   </main>
+
   <script type="text/javascript"
     src="https://cdn.jsdelivr.net/combine/npm/chart.js@2.9.4,npm/chart.js@2.9.4/dist/Chart.min.js,npm/chart.js@2.9.4/dist/Chart.bundle.min.js,npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
   <script type="module" src="js/index.js"></script>
