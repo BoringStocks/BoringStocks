@@ -2,16 +2,17 @@
   border-radius: 12px;
   border-color: #30363d !important;
   transition: background-color 0s;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .buttonStyle:hover {
   background-color: rgb(34, 38, 44) !important;
-  color: white !important;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .buttonStyle:disabled {
   background-color: rgb(34, 38, 44) !important;
-  color: white !important;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .buttonStyle:active,

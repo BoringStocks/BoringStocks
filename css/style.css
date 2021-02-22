@@ -71,7 +71,7 @@ html {
   border-radius: 12px;
   padding-right: 32px;
   background-color: rgba(0, 0, 0, 0);
-  color: white;
+  color: rgba(255, 255, 255, 0.85);
   border-color: #30363d;
 }
 
@@ -119,4 +119,12 @@ html {
   #searchInput {
     padding-right: 12px;
   }
+}
+
+.secondaryLabel {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.primaryLabel {
+  color: rgba(255, 255, 255, 0.85);
 }
