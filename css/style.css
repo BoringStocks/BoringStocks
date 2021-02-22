@@ -120,3 +120,9 @@ html {
     padding-right: 12px;
   }
 }
+
+.secondaryLabel {
+  color: #FFF;
+  opacity: 55%;
+
+}
