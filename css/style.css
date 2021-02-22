@@ -71,7 +71,7 @@ html {
   border-radius: 12px;
   padding-right: 32px;
   background-color: rgba(0, 0, 0, 0);
-  color: white;
+  color: rgba(255, 255, 255, 0.85);
   border-color: #30363d;
 }
 
@@ -122,11 +122,9 @@ html {
 }
 
 .secondaryLabel {
-  color: #FFF;
-  opacity: 55%;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .primaryLabel {
-  color: #FFF;
-  opacity: 85%;
+  color: rgba(255, 255, 255, 0.85);
 }
