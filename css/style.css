@@ -124,5 +124,9 @@ html {
 .secondaryLabel {
   color: #FFF;
   opacity: 55%;
+}
 
+.primaryLabel {
+  color: blue;
+  opacity: 85%;
 }
