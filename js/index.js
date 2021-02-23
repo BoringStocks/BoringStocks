@@ -1,4 +1,5 @@
 import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
+import { updateChartContainer } from "./chart.js"
 
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
@@ -127,6 +128,7 @@ function refresh(ticker) {
   setLoadingState(true)
 
   requestData(ticker)
+  updateChartContainer("5_days")
   refreshStock = setInterval(function () {
     requestData(ticker)
   }, 5000)
@@ -158,6 +160,7 @@ async function requestData(ticker) {
       setTimeout(function () {
         searchForm.classList.add("shakeAnimation")
       }, 0)
+      // TODO: show error state
     })
 }
 

@@ -50,6 +50,19 @@ const xAxes = [
   },
 ]
 
+function getDatasetObject(data, lineColor) {
+  return {
+    data: data,
+    borderWidth: 4,
+    fill: false,
+    lineTension: 0.2, // Subject to change
+    responsive: true,
+    maintainAspectRatio: false,
+    borderColor: [lineColor],
+    pointBorderColor: lineColor,
+  }
+}
+
 let actualChart
 function createChart(data) {
   const dates = []
@@ -77,7 +90,7 @@ function createChart(data) {
         display: false,
       },
       animation: {
-        duration: 0,
+        duration: 1000,
       },
       scales: {
         yAxes: yAxes,
@@ -87,7 +100,7 @@ function createChart(data) {
   })
 }
 
-export function updateChart(data) {
+function updateChart(data) {
   let dates = []
   let points = []
   for (let point of data) {
@@ -99,11 +112,8 @@ export function updateChart(data) {
   // let stepSize = Math.abs(points[0] - points[points.length - 1])
 
   actualChart.data.labels = dates
-  actualChart.data.datasets.forEach((dataset) => {
-    dataset.data = points
-    dataset.borderColor = [lineColor]
-    dataset.pointBorderColor = lineColor
-  })
+  actualChart.data.datasets.pop()
+  actualChart.data.datasets.push(getDatasetObject(points, lineColor))
 
   actualChart.update()
 }
@@ -117,14 +127,11 @@ async function requestChartData(duration) {
     .then((response) => response.json())
     .then((result) => {
       updateButtonEls(lastButtonPressedEls, enableButton)
-      if (actualChart) {
-        updateChart(result.historical)
-      } else {
-        createChart(result.historical)
-      }
+      updateChart(result.historical)
     })
     .catch((error) => {
       console.log(error)
+      // TODO: show error state
     })
 }
 
@@ -146,7 +153,7 @@ function disableButton(buttonEl) {
   buttonEl.querySelector(".loader").style.display = null
 }
 
-function updateChartContainer(duration) {
+export function updateChartContainer(duration) {
   // Disable all buttons
   // only show loader on btn pressed
   switch (duration) {
