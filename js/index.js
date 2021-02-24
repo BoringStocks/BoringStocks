@@ -38,10 +38,17 @@ function updateCompanyContainer({ symbol, name }) {
 
 function updateTabTitle({ symbol, current, points_change: { percent, points }, market_status }) {
   if (market_status === 1) {
-    tabTitle.innerHTML = `${symbol} | 
-    ${current.toFixed(2)} | 
-    ${points.toFixed(2)} 
-    (${percent.toFixed(2)}%)`
+    if (Math.sign(points) === 1) {
+      tabTitle.innerHTML = `${symbol} | 
+      ${current.toFixed(2)} | 
+      +${points.toFixed(2)} 
+      (+${percent.toFixed(2)}%)`
+    } else {
+      tabTitle.innerHTML = `${symbol} | 
+      ${current.toFixed(2)} | 
+      ${points.toFixed(2)} 
+      (${percent.toFixed(2)}%)`
+    }
   } else {
     tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | Market Closed`
   }
@@ -53,13 +60,17 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
     currentPriceEl.innerHTML = current.toFixed(2)
   }
 
-  const isPositive = points >= 0
-  const color = isPositive ? greenColor : redColor
+
   for (let priceChangeEl of priceChangeEls) {
     if (market_status === 1) {
       // Market Open
-      priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
-      priceChangeEl.style.color = color
+      if (Math.sign(points) === 1) {
+        priceChangeEl.innerHTML = `+${points.toFixed(2)} (+${percent.toFixed(2)}%)`
+        priceChangeEl.style.color = greenColor
+      } else {
+        priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
+        priceChangeEl.style.color = redColor
+      }
     } else {
       // Market Closed
       priceChangeEl.innerHTML = `Market Closed`
