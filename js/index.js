@@ -25,6 +25,8 @@ const tabTitle = document.getElementById("tabTitle")
 const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
 
+let loadingState = true
+
 function updateCompanyContainer({ symbol, name }) {
   for (let tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = symbol
@@ -98,6 +100,8 @@ function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, 
 }
 
 function setLoadingState(isLoading) {
+  loadingState = isLoading
+
   searchButton.disabled = isLoading
   searchInput.disabled = isLoading
 
@@ -126,9 +130,11 @@ let refreshStock
 function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
+  updateChartContainer("")
 
-  requestData(ticker)
-  updateChartContainer("5_days")
+  requestData(ticker).then(() => {
+    updateChartContainer("5_days")
+  })
   refreshStock = setInterval(function () {
     requestData(ticker)
   }, 5000)
@@ -141,7 +147,7 @@ async function requestData(ticker) {
     .then((response) => response.json())
     .then((result) => {
       // Do not show loading state for background refresh
-      if (result.symbol === symbol.toUpperCase()) {
+      if (result.symbol === symbol.toUpperCase() && loadingState === true) {
         setLoadingState(false)
       }
 
