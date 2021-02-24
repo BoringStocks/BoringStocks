@@ -20,9 +20,9 @@
 
 @keyframes placeholderShimmer {
   0% {
-    background-position: -616px 0;
+    background-position: -680px 0;
   }
   100% {
-    background-position: 616px 0;
+    background-position: 680px 0;
   }
 }
