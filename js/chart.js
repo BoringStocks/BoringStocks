@@ -145,7 +145,7 @@ async function requestChartData(duration) {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(lastButtonPressedEls, disableButton)
       updateChart(result.historical)
     })
     .catch((error) => {
@@ -166,10 +166,16 @@ function enableButton(buttonEl) {
   buttonEl.querySelector(".loader").style.display = "none"
 }
 
-function disableButton(buttonEl) {
+function disableButtonWithLoader(buttonEl) {
   buttonEl.disabled = true
   buttonEl.querySelector(".label").style.display = "none"
   buttonEl.querySelector(".loader").style.display = null
+}
+
+function disableButton(buttonEl) {
+  buttonEl.disabled = true
+  buttonEl.querySelector(".label").style.display = null
+  buttonEl.querySelector(".loader").style.display = "none"
 }
 
 export function updateChartContainer(duration) {
@@ -177,29 +183,34 @@ export function updateChartContainer(duration) {
   // only show loader on btn pressed
   switch (duration) {
     case "5_days":
-      updateButtonEls(fiveDaysButtonEls, disableButton)
       updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(fiveDaysButtonEls, disableButtonWithLoader)
       lastButtonPressedEls = fiveDaysButtonEls
       break
     case "1_month":
       updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(oneMonthButtonEls, disableButton)
+      updateButtonEls(oneMonthButtonEls, disableButtonWithLoader)
       lastButtonPressedEls = oneMonthButtonEls
       break
     case "6_months":
       updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(sixMonthsButtonEls, disableButton)
+      updateButtonEls(sixMonthsButtonEls, disableButtonWithLoader)
       lastButtonPressedEls = sixMonthsButtonEls
       break
     case "1_year":
       updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(oneYearButtonEls, disableButton)
+      updateButtonEls(oneYearButtonEls, disableButtonWithLoader)
       lastButtonPressedEls = oneYearButtonEls
+      break
+    case "max":
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(maxButtonEls, disableButtonWithLoader)
+      lastButtonPressedEls = maxButtonEls
       break
     default:
       updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(maxButtonEls, disableButton)
-      lastButtonPressedEls = maxButtonEls
+      removeChartData()
+      return
   }
 
   requestChartData(duration)
