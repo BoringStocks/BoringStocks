@@ -64,7 +64,7 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
   for (let priceChangeEl of priceChangeEls) {
     if (market_status === 1) {
       // Market Open
-      if (Math.sign(points) === 1) {
+      if (isPositive) {
         priceChangeEl.innerHTML = `+${points.toFixed(2)} (+${percent.toFixed(2)}%)`
         priceChangeEl.style.color = greenColor
       } else {
