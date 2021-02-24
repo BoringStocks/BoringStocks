@@ -53,13 +53,14 @@ const xAxes = [
 function getDatasetObject(data, lineColor) {
   return {
     data: data,
-    borderWidth: 4,
+    borderWidth: 3,
     fill: false,
-    lineTension: 0.2, // Subject to change
+    lineTension: 0.01, // Subject to change
     responsive: true,
     maintainAspectRatio: false,
     borderColor: [lineColor],
     pointBorderColor: lineColor,
+    borderCapStyle: "round",
   }
 }
 
@@ -96,8 +97,26 @@ function createChart(data) {
         yAxes: yAxes,
         xAxes: xAxes,
       },
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
+      tooltips: {
+        mode: "index",
+        intersect: false,
+      },
+      hover: {
+        mode: "nearest",
+        intersect: true,
+      },
     },
   })
+}
+
+function removeChartData() {
+  actualChart.data.datasets.pop()
+  actualChart.update()
 }
 
 function updateChart(data) {
