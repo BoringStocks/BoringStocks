@@ -148,6 +148,8 @@ function refresh(ticker) {
   requestData(ticker).then(() => {
     // Update current ticker
     localStorage.setItem(tickerKey, ticker)
+    // Disable loading state
+    setLoadingState(false)
     // Update Chart
     updateChartContainer("5_days")
   })
@@ -162,12 +164,6 @@ async function requestData(ticker) {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      // Disable shimmer loading state for background refresh
-      const currentTicker = localStorage.getItem(tickerKey).toUpperCase()
-      if (result.symbol === currentTicker && loadingState === true) {
-        setLoadingState(false)
-      }
-
       // Update all containers
       updateCompanyContainer(result)
       updatePriceContainer(result)
