@@ -1,6 +1,4 @@
-import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
-
-const tickerIndexEls = document.getElementsByClassName("tickerIndex")
+import { api, greenColor, redColor, secondaryLabel, tickerKey } from "./constants.js"
 
 const desktopChartEl = document.getElementById("desktopChart")
 const mobileChartEl = document.getElementById("mobileChart")
@@ -161,7 +159,7 @@ function updateChart(data) {
 
 let lastButtonPressedEls = []
 async function requestChartData(duration) {
-  const ticker = tickerIndexEls[0].innerHTML
+  const ticker = localStorage.getItem(tickerKey)
   const url = `${api}/${ticker}/historical/${duration}`
 
   await fetch(url)

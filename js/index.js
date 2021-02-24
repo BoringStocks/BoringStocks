@@ -1,4 +1,12 @@
-import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
+import {
+  api,
+  greenColor,
+  redColor,
+  secondaryLabel,
+  easterEggs,
+  tickerKey,
+  defaultTicker,
+} from "./constants.js"
 import { updateChartContainer } from "./chart.js"
 
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
@@ -26,20 +34,18 @@ const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
 
 let loadingState = true
-
-const greenColor = "#32D74B"
-const redColor = "#FF453A"
-const easterEggs = {
-  GME: "🚀",
-  AMC: "💎",
-  AMZN: "📦",
-  AAPL: "🍎",
-}
-
+let refreshStock
 
 function updateCompanyContainer({ symbol, name }) {
+  let computedSymbol = symbol
+
+  // Add easter egg 🐣
+  if (symbol in easterEggs) {
+    computedSymbol += " " + easterEggs[symbol]
+  }
+
   for (let tickerIndexEl of tickerIndexEls) {
-    tickerIndexEl.innerHTML = symbol
+    tickerIndexEl.innerHTML = computedSymbol
   }
   for (let companyNameEl of companyNameEls) {
     companyNameEl.innerHTML = name
@@ -135,14 +141,14 @@ function setLoadingState(isLoading) {
   }
 }
 
-let symbol = "GME"
-let refreshStock
 function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
   updateChartContainer("")
-
   requestData(ticker).then(() => {
+    // Update current ticker
+    localStorage.setItem(tickerKey, ticker)
+    // Update Chart
     updateChartContainer("5_days")
   })
   refreshStock = setInterval(function () {
@@ -156,15 +162,13 @@ async function requestData(ticker) {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      // Do not show loading state for background refresh
-      if (result.symbol === symbol.toUpperCase() && loadingState === true) {
+      // Disable shimmer loading state for background refresh
+      const currentTicker = localStorage.getItem(tickerKey).toUpperCase()
+      if (result.symbol === currentTicker && loadingState === true) {
         setLoadingState(false)
       }
 
-      if (result.symbol in easterEggs) {
-        result.symbol += " " + easterEggs[result.symbol]
-      }
-
+      // Update all containers
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
@@ -184,18 +188,20 @@ async function requestData(ticker) {
     })
 }
 
+// Search Button handler
 searchButton.onclick = (event) => {
   event.preventDefault()
-  symbol = searchInput.value
+  const ticker = searchInput.value
   searchInput.value = ""
-
-  refresh(symbol)
+  refresh(ticker)
 }
 
+// Initial page load
 document.addEventListener("DOMContentLoaded", function () {
-  refresh(symbol)
+  refresh(defaultTicker)
 })
 
+// Custom key binding for search bar
 window.addEventListener(
   "keydown",
   function (event) {
