@@ -2,7 +2,10 @@ import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
 
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 
-const ctx = document.getElementById("myChart").getContext("2d")
+const desktopChartEl = document.getElementById("desktopChart")
+const mobileChartEl = document.getElementById("mobileChart")
+let desktopChart
+let mobileChart
 
 const fiveDaysButtonEls = document.getElementsByClassName("5DButton")
 const oneMonthButtonEls = document.getElementsByClassName("1MButton")
@@ -64,12 +67,10 @@ function getDatasetObject(data, lineColor) {
   }
 }
 
-let actualChart
 function createChart(data) {
   const dates = []
   const points = []
-
-  actualChart = new Chart(ctx, {
+  const chartConfig = {
     type: "line",
     data: {
       labels: dates,
@@ -111,15 +112,27 @@ function createChart(data) {
         intersect: true,
       },
     },
-  })
+  }
+
+  desktopChart = new Chart(desktopChartEl.getContext("2d"), chartConfig)
+  mobileChart = new Chart(mobileChartEl.getContext("2d"), chartConfig)
 }
 
 function removeChartData() {
-  actualChart.data.datasets.pop()
-  actualChart.update()
+  // git blame: chartjs for this extremly high DRY code
+  if (document.body.clientWidth <= 992) {
+    // Update mobile chart
+    mobileChart.data.datasets.pop()
+    mobileChart.update()
+  } else {
+    // Update desktop chart
+    desktopChart.data.datasets.pop()
+    desktopChart.update()
+  }
 }
 
 function updateChart(data) {
+  // normalize data
   let dates = []
   let points = []
   for (let point of data) {
@@ -127,14 +140,23 @@ function updateChart(data) {
     points.push(point.close)
   }
 
-  let lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
-  // let stepSize = Math.abs(points[0] - points[points.length - 1])
+  // compute line color
+  const lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
 
-  actualChart.data.labels = dates
-  actualChart.data.datasets.pop()
-  actualChart.data.datasets.push(getDatasetObject(points, lineColor))
-
-  actualChart.update()
+  // git blame: chartjs for this extremly high DRY code
+  if (document.body.clientWidth <= 992) {
+    // Update mobile chart
+    mobileChart.data.labels = dates
+    mobileChart.data.datasets.pop()
+    mobileChart.data.datasets.push(getDatasetObject(points, lineColor))
+    mobileChart.update()
+  } else {
+    // Update desktop chart
+    desktopChart.data.labels = dates
+    desktopChart.data.datasets.pop()
+    desktopChart.data.datasets.push(getDatasetObject(points, lineColor))
+    desktopChart.update()
+  }
 }
 
 let lastButtonPressedEls = []
