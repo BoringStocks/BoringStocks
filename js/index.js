@@ -60,7 +60,7 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
     currentPriceEl.innerHTML = current.toFixed(2)
   }
 
-
+  const isPositive = points >= 0
   for (let priceChangeEl of priceChangeEls) {
     if (market_status === 1) {
       // Market Open
