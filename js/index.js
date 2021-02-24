@@ -1,3 +1,6 @@
+import { api, greenColor, redColor, secondaryLabel } from "./constants.js"
+import { updateChartContainer } from "./chart.js"
+
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
 
@@ -10,14 +13,19 @@ const highEls = document.getElementsByClassName("high")
 const lowEls = document.getElementsByClassName("low")
 const volumeEls = document.getElementsByClassName("volume")
 const avgVolumeEls = document.getElementsByClassName("avgVolume")
+const marketCapEls = document.getElementsByClassName("mktCap")
 
-const searchInputEls = document.getElementsByClassName("searchInput")
-const searchButtonEls = document.getElementsByClassName("searchButton")
+const searchForm = document.getElementById("formRoot")
+const searchInput = document.getElementById("searchInput")
+const searchButton = document.getElementById("searchButton")
 const searchSpan = document.getElementById("searchSpan")
 const loadingDiv = document.getElementById("loadingDiv")
+const tabTitle = document.getElementById("tabTitle")
 
 const shineEls = document.getElementsByClassName("rootContainer")
 const containerEls = document.getElementsByClassName("informationContainer")
+
+let loadingState = true
 
 const greenColor = "#32D74B"
 const redColor = "#FF453A"
@@ -28,29 +36,48 @@ const easterEggs = {
   AAPL: "🍎",
 }
 
+
 function updateCompanyContainer({ symbol, name }) {
-  for (tickerIndexEl of tickerIndexEls) {
+  for (let tickerIndexEl of tickerIndexEls) {
     tickerIndexEl.innerHTML = symbol
   }
-  for (companyNameEl of companyNameEls) {
+  for (let companyNameEl of companyNameEls) {
     companyNameEl.innerHTML = name
   }
 }
 
-function updatePriceContainer({ current, points_change: { percent, points } }) {
+function updateTabTitle({ symbol, current, points_change: { percent, points }, market_status }) {
+  if (market_status === 1) {
+    tabTitle.innerHTML = `${symbol} | 
+    ${current.toFixed(2)} | 
+    ${points.toFixed(2)} 
+    (${percent.toFixed(2)}%)`
+  } else {
+    tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | Market Closed`
+  }
+}
+
+function updatePriceContainer({ current, points_change: { percent, points }, market_status }) {
   const needsAnimationRefresh = currentPriceEls[0].innerHTML != current
-  for (currentPriceEl of currentPriceEls) {
-    currentPriceEl.innerHTML = current
+  for (let currentPriceEl of currentPriceEls) {
+    currentPriceEl.innerHTML = current.toFixed(2)
   }
 
   const isPositive = points >= 0
   const color = isPositive ? greenColor : redColor
-  for (priceChangeEl of priceChangeEls) {
-    priceChangeEl.innerHTML = `${points} (${percent}%)`
-    priceChangeEl.style.color = color
+  for (let priceChangeEl of priceChangeEls) {
+    if (market_status === 1) {
+      // Market Open
+      priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
+      priceChangeEl.style.color = color
+    } else {
+      // Market Closed
+      priceChangeEl.innerHTML = `Market Closed`
+      priceChangeEl.style.color = secondaryLabel
+    }
   }
 
-  if (needsAnimationRefresh) {
+  if (needsAnimationRefresh && market_status === 1) {
     const index = document.body.clientWidth <= 992 ? 1 : 0
     const animation = isPositive ? "greenPriceUpdate" : "redPriceUpdate"
     priceContainerEls[index].classList.remove("greenPriceUpdate")
@@ -61,37 +88,37 @@ function updatePriceContainer({ current, points_change: { percent, points } }) {
   }
 }
 
-function updateStatsContainer({
-  range: { close, high, low },
-  open,
-  volume,
-  avg_volume,
-}) {
-  for (openEl of openEls) {
+function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, market_cap }) {
+  for (let openEl of openEls) {
     openEl.innerHTML = open.toFixed(2)
   }
-  for (highEl of highEls) {
+  for (let highEl of highEls) {
     highEl.innerHTML = high.toFixed(2)
   }
-  for (lowEl of lowEls) {
+  for (let lowEl of lowEls) {
     lowEl.innerHTML = low.toFixed(2)
   }
-  for (volumeEl of volumeEls) {
-    volumeEl.innerHTML = volume
+  for (let volumeEl of volumeEls) {
+    volumeEl.innerHTML = volume.toLocaleString()
   }
-  for (avgVolumeEl of avgVolumeEls) {
-    avgVolumeEl.innerHTML = avg_volume
+  for (let avgVolumeEl of avgVolumeEls) {
+    avgVolumeEl.innerHTML = avg_volume.toLocaleString()
+  }
+  for (let marketCapEl of marketCapEls) {
+    marketCapEl.innerHTML = market_cap
   }
 }
 
 function setLoadingState(isLoading) {
+  loadingState = isLoading
+
   searchButton.disabled = isLoading
   searchInput.disabled = isLoading
 
   searchSpan.style.display = isLoading ? "none" : "block"
   loadingDiv.style.display = isLoading ? "block" : "none"
 
-  for (shineEl of shineEls) {
+  for (let shineEl of shineEls) {
     if (isLoading) {
       shineEl.classList.add("shine")
     } else {
@@ -99,7 +126,7 @@ function setLoadingState(isLoading) {
     }
   }
 
-  for (containerEl of containerEls) {
+  for (let containerEl of containerEls) {
     if (isLoading) {
       containerEl.classList.add("hide")
     } else {
@@ -113,22 +140,24 @@ let refreshStock
 function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
+  updateChartContainer("")
 
-  requestData(ticker)
+  requestData(ticker).then(() => {
+    updateChartContainer("5_days")
+  })
   refreshStock = setInterval(function () {
     requestData(ticker)
   }, 5000)
 }
 
 async function requestData(ticker) {
-  const api = "https://stonkscraper.herokuapp.com"
   const url = `${api}/${ticker}`
 
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
       // Do not show loading state for background refresh
-      if (result.symbol === symbol.toUpperCase()) {
+      if (result.symbol === symbol.toUpperCase() && loadingState === true) {
         setLoadingState(false)
       }
 
@@ -139,18 +168,26 @@ async function requestData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
+      updateTabTitle(result)
     })
 
     .catch((err) => {
+      console.log(err)
       setLoadingState(false)
       clearInterval(refreshStock)
-      // TODO: update ui to reflect failed state
+
+      searchForm.classList.remove("shakeAnimation")
+      setTimeout(function () {
+        searchForm.classList.add("shakeAnimation")
+      }, 0)
+      // TODO: show error state
     })
 }
 
 searchButton.onclick = (event) => {
   event.preventDefault()
   symbol = searchInput.value
+  searchInput.value = ""
 
   refresh(symbol)
 }
@@ -158,3 +195,16 @@ searchButton.onclick = (event) => {
 document.addEventListener("DOMContentLoaded", function () {
   refresh(symbol)
 })
+
+window.addEventListener(
+  "keydown",
+  function (event) {
+    if (event.key === "/") {
+      searchInput.focus()
+      setTimeout(function () {
+        searchInput.value = ""
+      }, 0)
+    }
+  },
+  true
+)

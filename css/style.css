@@ -51,6 +51,54 @@ html {
   margin: 0 auto;
 }
 
+.chartContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.hide {
+  opacity: 0;
+}
+
+/* Search Bar */
+#searchContainer {
+  display: flex;
+  position: relative;
+  margin-right: 8px;
+}
+
+#searchInput {
+  border-radius: 12px;
+  padding-right: 32px;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(255, 255, 255, 0.85);
+  border-color: #30363d;
+}
+
+#searchInput:disabled {
+  opacity: 0.65;
+}
+
+#searchKey {
+  position: absolute;
+  display: block;
+  z-index: 2;
+
+  right: 0;
+
+  width: 26px;
+  height: 26px;
+  line-height: 23px;
+  margin: 6px;
+
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+
+  border: 1px solid #30363d;
+  border-radius: 8px;
+}
+
 @media only screen and (max-width: 992px) {
   .desktopView {
     display: none;
@@ -63,73 +111,20 @@ html {
   .footer {
     position: inherit;
   }
-}
 
-@keyframes redInnerShadowAnimation {
-  0% {
-    box-shadow: inset 0 0 24px #ff443a00;
+  #searchKey {
+    display: none;
   }
-  50% {
-    box-shadow: inset 0 0 24px #ff453a;
-  }
-  100% {
-    box-shadow: inset 0 0 24px #ff443a00;
+
+  #searchInput {
+    padding-right: 12px;
   }
 }
 
-.redPriceUpdate {
-  animation-name: redInnerShadowAnimation;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
+.secondaryLabel {
+  color: rgba(255, 255, 255, 0.55);
 }
 
-@keyframes greenInnerShadowAnimation {
-  0% {
-    box-shadow: inset 0 0 24px #32d74b00;
-  }
-  50% {
-    box-shadow: inset 0 0 24px #32d74b;
-  }
-  100% {
-    box-shadow: inset 0 0 24px #32d74b00;
-  }
-}
-
-.greenPriceUpdate {
-  animation-name: greenInnerShadowAnimation;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-}
-
-.shine {
-  background: #f6f7f8;
-  background-image: linear-gradient(
-    to right,
-    #f6f7f808 0%,
-    #edeef108 20%,
-    #f6f7f808 40%,
-    #f6f7f808 100%
-  );
-  background-repeat: no-repeat;
-  display: inline-block;
-  position: relative;
-
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeholderShimmer;
-  animation-timing-function: linear;
-}
-
-@keyframes placeholderShimmer {
-  0% {
-    background-position: -550px 0;
-  }
-  100% {
-    background-position: 550px 0;
-  }
-}
-
-.hide {
-  opacity: 0;
+.primaryLabel {
+  color: rgba(255, 255, 255, 0.85);
 }

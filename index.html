@@ -2,9 +2,7 @@
 <html>
 
 <head>
-  <title>BoringStocks</title>
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+  <title id='tabTitle'>BoringStocks</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -14,22 +12,38 @@
     crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/button.css">
+  <link rel="stylesheet" href="./css/insetShadow.css">
+  <link rel="stylesheet" href="./css/shimmer.css">
+  <link rel="stylesheet" href="./css/shake.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
+  <link rel="shortcut icon" href="/icons/favicon.ico">
+
+  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
   <main>
-
-
-
     <!--  NAVBAR  -->
     <nav class="navbar navbar-dark nav-bg">
-      <div class="container" style="opacity: 0.85; flex-wrap: nowrap;">
-        <a style="font-size: 33px; line-height: 38px;">💸</a>
+      <div class="container" style="flex-wrap: nowrap;">
+        <!-- Logo -->
+        <img style="width: 33px; height: 33px;" class="primaryLabel" src="icons/logo.png" alt="">
 
-        <form class="d-flex" style="padding: 0 12px 0 12px">
-          <input id="searchInput" class="form-control me-2" style="border-radius: 12px;" type="search"
-            placeholder="Search" aria-label="Search" />
-          <button id="searchButton" class="btn btn-outline-light" style="border-radius: 12px;" type="submit">
+        <!-- Form -->
+        <form id="formRoot" class="d-flex" style="padding: 0 12px 0 12px">
+          <div id="searchContainer">
+            <input id="searchInput" class="form-control" type="search" placeholder="Search Stock" autocomplete="off"
+              aria-label="Search" />
+            <kdb id="searchKey">/</kdb>
+          </div>
+
+          <button id="searchButton" class="btn btn-outline-light buttonStyle" disabled type="submit">
             <span id="searchSpan">Search</span>
             <div id="loadingDiv" style="display: none;">
               <div class="d-flex align-items-center">
@@ -40,7 +54,8 @@
           </button>
         </form>
 
-        <a target="_blank" href="https://github.com/BoringStocks/BoringStocks">
+        <!-- Github Icon -->
+        <a target="_blank" class="primaryLabel" href="https://github.com/BoringStocks/BoringStocks">
           <svg width="33" height="33" viewBox="0 0 33 33">
             <title>Github Link</title>
             <path
@@ -52,8 +67,7 @@
       </div>
     </nav>
 
-
-
+    <!-- Desktop -->
     <section>
       <div class="container transparent mainPadding desktopView">
         <div class="row text-light text-center">
@@ -61,10 +75,9 @@
           <div class="col bg-dark colStyles headContPadding rootContainer shine" style="margin-right: 24px;">
             <div class="informationContainer hide">
               <!-- Ticker Index -->
-              <h1 class="tickerIndex">GME</h1>
-              <!-- <span style="font-size: 13px;">(Prev)</span> -->
+              <h1 class="tickerIndex primaryLabel">GME</h1>
               <!-- Ticker Company Name -->
-              <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
+              <h4 class="companyName secondaryLabel">GameStop Corp.</h4>
             </div>
           </div>
 
@@ -73,70 +86,103 @@
             style="margin-left: 24px;">
             <div class="informationContainer hide">
               <!-- Current Price -->
-              <h1 class="currentPrice">225.00</h1>
+              <h1 class="currentPrice primaryLabel">225.00</h1>
               <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
             </div>
           </div>
         </div>
 
-        <div class="row text-light text-center" style="margin-top: 48px;">
+        <div class="row text-light text-center" style="margin-top: 48px; flex-wrap: nowrap;">
           <!--  Stock information container  -->
-          <div class="col bg-dark colStyles x-info-col rootContainer shine" style="padding: 20px; margin-right: 24px;">
+          <div class="col bg-dark colStyles x-info-col rootContainer shine" style="margin-right: 24px;">
             <div class="informationContainer hide">
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
+                <h4 class="secondaryLabel">Open</h4>
                 <!-- Open -->
-                <h4 class="open">316.56</h4>
+                <h4 class="open primaryLabel">316.56</h4>
               </div>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">High</h4>
+                <h4 class="secondaryLabel">High</h4>
                 <!-- High -->
-                <h4 class="high">322.00</h4>
+                <h4 class="high primaryLabel">322.00</h4>
               </div>
               <!-- Low -->
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Low</h4>
-                <h4 class="low">212.00</h4>
+                <h4 class="secondaryLabel">Low</h4>
+                <h4 class="low primaryLabel">212.00</h4>
               </div>
               <hr>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Volume</h4>
-                <!-- Volume -->
-                <h4 class="volume">74,491,412</h4>
+                <h4 class="secondaryLabel">Market Cap</h4>
+                <!-- Market Cap -->
+                <h4 class="mktCap primaryLabel">3.17B</h4>
               </div>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Avg Volume</h4>
+                <h4 class="secondaryLabel">Volume</h4>
+                <!-- Volume -->
+                <h4 class="volume primaryLabel">74,491,412</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 class="secondaryLabel">Avg Volume</h4>
                 <!-- Average Volume -->
-                <h4 class="avgVolume">5,123,523</h4>
+                <h4 class="avgVolume primaryLabel">5,123,523</h4>
               </div>
             </div>
           </div>
 
           <!--  CHART JS GRAPH  -->
-          <div class="col bg-dark colStyles rootContainer shine" style="padding: 20px; margin-left: 24px;">
-            <div class="informationContainer hide">
+          <div class="col bg-dark colStyles rootContainer shine" style="margin-left: 24px;">
+            <div class="informationContainer hide d-flex h-100">
+              <div class="btn-group-vertical" role="group" style="margin-right: 16px; min-width: 50px;">
+                <button class="btn btn-outline-light buttonStyle 5DButton">
+                  <span class="label">5D</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 1MButton">
+                  <span class="label">1M</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 6MButton">
+                  <span class="label">6M</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 1YButton">
+                  <span class="label">1Y</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle MAXButton">
+                  <span class="label">∞</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+              </div>
 
+              <div style="position: relative; flex-grow: 2;">
+                <canvas id="desktopChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-
-
-
+    <!-- Mobile -->
     <section>
       <div class="container transparent mainPadding mobileView">
         <div class="row text-light text-center" style="margin-bottom: 24px;">
           <div class="col-md-12 bg-dark colStyles headContPadding priceContainer rootContainer shine">
             <div class="informationContainer hide">
               <!-- Ticker Index -->
-              <h1 class="tickerIndex">GME</h1>
+              <h1 class="tickerIndex primaryLabel">GME</h1>
               <!-- Ticker Company Name -->
-              <h4 class="companyName" style="color: rgb(149, 149, 149);">GameStop Corp.</h4>
+              <h4 class="companyName secondaryLabel">GameStop Corp.</h4>
               <hr>
               <!-- Current Price -->
-              <h1 class="currentPrice">225.00</h1>
+              <h1 class="currentPrice primaryLabel">225.00</h1>
               <!-- Price Change -->
               <h4 class="priceChange" style="color: #FF453A;">-100.00 (-30.77%)</h4>
             </div>
@@ -145,42 +191,77 @@
 
         <div class="row text-light text-center">
           <!--  ChartJS Graph  -->
-          <div class="col-md-12 bg-dark colStyles rootContainer shine" style="padding: 24px; height: 300px;">
-            <div class="informationContainer hide">
+          <div class="col-md-12 bg-dark colStyles rootContainer shine" style="height: 300px;">
+            <div class="informationContainer hide d-flex h-100">
+              <div class="btn-group-vertical" role="group" style="margin-right: 16px; min-width: 50px;">
+                <button class="btn btn-outline-light buttonStyle 5DButton">
+                  <span class="label">5D</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 1MButton">
+                  <span class="label">1M</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 6MButton">
+                  <span class="label">6M</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle 1YButton">
+                  <span class="label">1Y</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-light buttonStyle MAXButton">
+                  <span class="label">∞</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
+              </div>
 
+              <div>
+                <canvas id="mobileChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="row text-light text-center" style="margin-top: 24px;">
           <!--  Stock Information Container  -->
-          <div class="col-sm-12 bg-dark colStyles x-info-col rootContainer shine" style="padding: 24px;">
+          <div class="col-sm-12 bg-dark colStyles x-info-col rootContainer shine">
             <div class="informationContainer hide">
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Open</h4>
+                <h4 class="secondaryLabel">Open</h4>
                 <!-- Open -->
-                <h4 class="open">316.56</h4>
+                <h4 class="open primaryLabel">316.56</h4>
               </div>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">High</h4>
+                <h4 class="secondaryLabel">High</h4>
                 <!-- High -->
-                <h4 class="high">322.00</h4>
+                <h4 class="high primaryLabel">322.00</h4>
               </div>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Low</h4>
+                <h4 class="secondaryLabel">Low</h4>
                 <!-- Low -->
-                <h4 class="low">212.00</h4>
+                <h4 class="low primaryLabel">212.00</h4>
               </div>
               <hr>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Volume</h4>
-                <!-- Volume -->
-                <h4 class="volume">74,491,412</h4>
+                <h4 class="secondaryLabel">Market Cap</h4>
+                <!-- Market Cap -->
+                <h4 class="mktCap primaryLabel">3.17B</h4>
               </div>
               <div class="x-info-row">
-                <h4 style="color: rgba(255, 255, 255, 0.425);">Avg Volume</h4>
+                <h4 class="secondaryLabel">Volume</h4>
+                <!-- Volume -->
+                <h4 class="volume primaryLabel">74,491,412</h4>
+              </div>
+              <div class="x-info-row">
+                <h4 class="secondaryLabel">Avg Volume</h4>
                 <!-- Average Volume-->
-                <h4 class="avgVolume">5,123,523</h4>
+                <h4 class="avgVolume primaryLabel">5,123,523</h4>
               </div>
             </div>
           </div>
@@ -188,16 +269,19 @@
       </div>
     </section>
 
-
+    <!-- Footer -->
     <div class="footer">
       <div class="container" style="display: flex; justify-content: space-between;">
-        <h6 style="color: #FFFFFF; opacity: 0.55; font-weight: 300;">Designed in California</h6>
-        <h6 style="color: #FFFFFF; opacity: 0.55; font-weight: 300;">&#169 BoringStocks 2021</h6>
+        <h6 class="secondaryLabel" ; style="font-weight: 300;">Designed in California</h6>
+        <h6 class="secondaryLabel" ; style="font-weight: 300;">&#169 BoringStocks 2021</h6>
       </div>
     </div>
-
   </main>
-  <script type="text/javascript" src="js/index.js"></script>
+
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/combine/npm/chart.js@2.9.4,npm/chart.js@2.9.4/dist/Chart.min.js,npm/chart.js@2.9.4/dist/Chart.bundle.min.js,npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
+  <script type="module" src="js/index.js"></script>
+  <script type="module" src="js/chart.js"></script>
 </body>
 
 </html>
