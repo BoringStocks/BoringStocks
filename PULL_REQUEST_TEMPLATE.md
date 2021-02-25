@@ -1,6 +1,5 @@
 ### Checklist
-- [ ] Merged `dev` into this branch
-- [ ] There's no merge conflicts
+- [ ] No merge conflicts (pull from dev if needed)
 - [ ] Thoroughly tested code
 - [ ] Trello card requirements are met
 
