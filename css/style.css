@@ -1,3 +1,7 @@
+.mainPadding {
+  padding: 24px 32px;
+}
+
 .headContPadding {
   padding: 24px !important;
 }
