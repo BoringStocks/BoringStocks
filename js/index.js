@@ -156,7 +156,7 @@ function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
   updateChartContainer("")
-  requestData(ticker).then(() => {
+  requestAllData(ticker).then(() => {
     // Update current ticker
     localStorage.setItem(tickerKey, ticker)
     // Disable loading state
@@ -165,11 +165,15 @@ function refresh(ticker) {
     updateChartContainer("5_days")
   })
   refreshStock = setInterval(function () {
-    requestData(ticker)
+    requestCurrentPrice(ticker)
   }, 5000)
 }
 
-async function requestData(ticker) {
+async function requestCurrentPrice(ticker) {
+  const url = `${api}/${ticker}/current`
+}
+
+async function requestAllData(ticker) {
   const url = `${api}/${ticker}`
 
   await fetch(url)
