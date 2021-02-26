@@ -1,7 +1,3 @@
-.mainPadding {
-  padding: 24px 32px;
-}
-
 .headContPadding {
   padding: 24px !important;
 }
@@ -38,6 +34,15 @@ html {
 
 .mobileView {
   display: none;
+}
+
+.desktopView {
+  padding: 24px 32px;
+}
+
+#desktopChart {
+  width: 100%;
+  height: 100%;
 }
 
 .footer {
