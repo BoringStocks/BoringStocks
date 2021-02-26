@@ -68,6 +68,8 @@ function updateTabTitle({ symbol, current, points_change: { percent, points }, m
   } else {
     tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | Market Closed`
   }
+
+  console.log("update tab title")
 }
 
 function updatePriceContainer({ current, points_change: { percent, points }, market_status }) {
@@ -126,6 +128,23 @@ function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, 
   }
 }
 
+function updateHighAndLow({ current }) {
+  const currentHigh = parseFloat(highEls[0].innerHTML)
+  const currentLow = parseFloat(lowEls[0].innerHTML)
+
+  if (current < currentLow) {
+    for (let lowEl of lowEls) {
+      lowEl.innerHTML = current.toFixed(2)
+    }
+  } else if (current > currentHigh) {
+    for (let highEl of highEls) {
+      highEl.innerHTML = current.toFixed(2)
+    }
+  }
+
+  console.log("update high and low")
+}
+
 function setLoadingState(isLoading) {
   loadingState = isLoading
 
@@ -176,6 +195,7 @@ async function requestCurrentPrice(ticker) {
     .then((response) => response.json())
     .then((result) => {
       updatePriceContainer(result)
+      updateHighAndLow(result)
       updateTabTitle(result)
     })
 }
