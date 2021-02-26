@@ -9,6 +9,10 @@
   padding: 24px !important;
 }
 
+.col {
+  width: 40% !important;
+}
+
 .nav-bg {
   background-color: #06090e !important;
 }
