@@ -68,8 +68,6 @@ function updateTabTitle({ symbol, current, points_change: { percent, points }, m
   } else {
     tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | Market Closed`
   }
-
-  console.log("update tab title")
 }
 
 function updatePriceContainer({ current, points_change: { percent, points }, market_status }) {
@@ -128,6 +126,7 @@ function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, 
   }
 }
 
+// Update High and Low based on current stock price and previous HTML values
 function updateHighAndLow({ current }) {
   const currentHigh = parseFloat(highEls[0].innerHTML)
   const currentLow = parseFloat(lowEls[0].innerHTML)
@@ -141,8 +140,6 @@ function updateHighAndLow({ current }) {
       highEl.innerHTML = current.toFixed(2)
     }
   }
-
-  console.log("update high and low")
 }
 
 function setLoadingState(isLoading) {
@@ -175,6 +172,7 @@ function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
   updateChartContainer("")
+
   requestAllData(ticker).then(() => {
     // Update current ticker
     localStorage.setItem(tickerKey, ticker)
@@ -183,6 +181,8 @@ function refresh(ticker) {
     // Update Chart
     updateChartContainer("5_days")
   })
+
+  // Auto refresh stock price
   refreshStock = setInterval(function () {
     requestCurrentPrice(ticker)
   }, 5000)
