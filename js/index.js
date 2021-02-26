@@ -176,7 +176,7 @@ async function requestCurrentPrice(ticker) {
     .then((response) => response.json())
     .then((result) => {
       updatePriceContainer(result)
-      updateTabTitle(companyNameEls, result)
+      updateTabTitle(result)
     })
 }
 
