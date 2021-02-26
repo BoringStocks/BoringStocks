@@ -53,6 +53,7 @@ const xAxes = [
 
 const options = {
   layout: layout,
+  maintainAspectRatio: false,
   legend: {
     display: false,
   },
@@ -106,8 +107,6 @@ function createChart() {
           borderWidth: 4,
           fill: false,
           lineTension: 0.2, // Subject to change
-          responsive: true,
-          maintainAspectRatio: false,
         },
       ],
     },
