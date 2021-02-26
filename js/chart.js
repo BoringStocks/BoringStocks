@@ -51,6 +51,33 @@ const xAxes = [
   },
 ]
 
+const options = {
+  layout: layout,
+  legend: {
+    display: false,
+  },
+  animation: {
+    duration: 1000,
+  },
+  scales: {
+    yAxes: yAxes,
+    xAxes: xAxes,
+  },
+  elements: {
+    point: {
+      radius: 0,
+    },
+  },
+  tooltips: {
+    mode: "index",
+    intersect: false,
+  },
+  hover: {
+    mode: "nearest",
+    intersect: true,
+  },
+}
+
 function getDatasetObject(data, lineColor) {
   return {
     data: data,
@@ -65,10 +92,10 @@ function getDatasetObject(data, lineColor) {
   }
 }
 
-function createChart(data) {
+function createChart() {
   const dates = []
   const points = []
-  const chartConfig = {
+  desktopChart = new Chart(desktopChartEl.getContext("2d"), {
     type: "line",
     data: {
       labels: dates,
@@ -84,49 +111,37 @@ function createChart(data) {
         },
       ],
     },
-    options: {
-      layout: layout,
-      legend: {
-        display: false,
-      },
-      animation: {
-        duration: 1000,
-      },
-      scales: {
-        yAxes: yAxes,
-        xAxes: xAxes,
-      },
-      elements: {
-        point: {
-          radius: 0,
+    options: options,
+  })
+  mobileChart = new Chart(mobileChartEl.getContext("2d"), {
+    type: "line",
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: "Price",
+          data: points,
+          borderWidth: 4,
+          fill: false,
+          lineTension: 0.2, // Subject to change
+          responsive: true,
+          maintainAspectRatio: false,
         },
-      },
-      tooltips: {
-        mode: "index",
-        intersect: false,
-      },
-      hover: {
-        mode: "nearest",
-        intersect: true,
-      },
+      ],
     },
-  }
-
-  desktopChart = new Chart(desktopChartEl.getContext("2d"), chartConfig)
-  mobileChart = new Chart(mobileChartEl.getContext("2d"), chartConfig)
+    options: options,
+  })
 }
 
 function removeChartData() {
   // git blame: chartjs for this extremly high DRY code
-  if (document.body.clientWidth <= 992) {
-    // Update mobile chart
-    mobileChart.data.datasets.pop()
-    mobileChart.update()
-  } else {
-    // Update desktop chart
-    desktopChart.data.datasets.pop()
-    desktopChart.update()
-  }
+  // Update mobile chart
+  mobileChart.data.datasets.pop()
+  mobileChart.update()
+
+  // Update desktop chart
+  desktopChart.data.datasets.pop()
+  desktopChart.update()
 }
 
 function updateChart(data) {
@@ -142,19 +157,17 @@ function updateChart(data) {
   const lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
 
   // git blame: chartjs for this extremly high DRY code
-  if (document.body.clientWidth <= 992) {
-    // Update mobile chart
-    mobileChart.data.labels = dates
-    mobileChart.data.datasets.pop()
-    mobileChart.data.datasets.push(getDatasetObject(points, lineColor))
-    mobileChart.update()
-  } else {
-    // Update desktop chart
-    desktopChart.data.labels = dates
-    desktopChart.data.datasets.pop()
-    desktopChart.data.datasets.push(getDatasetObject(points, lineColor))
-    desktopChart.update()
-  }
+  // Update mobile chart
+  mobileChart.data.labels = dates
+  mobileChart.data.datasets.pop()
+  mobileChart.data.datasets.push(getDatasetObject(points, lineColor))
+  mobileChart.update()
+
+  // Update desktop chart
+  desktopChart.data.labels = dates
+  desktopChart.data.datasets.pop()
+  desktopChart.data.datasets.push(getDatasetObject(points, lineColor))
+  desktopChart.update()
 }
 
 let lastButtonPressedEls = []
