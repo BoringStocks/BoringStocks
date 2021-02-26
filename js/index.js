@@ -171,6 +171,13 @@ function refresh(ticker) {
 
 async function requestCurrentPrice(ticker) {
   const url = `${api}/${ticker}/current`
+
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      updatePriceContainer(result)
+      updateTabTitle(result)
+    })
 }
 
 async function requestAllData(ticker) {
@@ -183,7 +190,7 @@ async function requestAllData(ticker) {
       updateCompanyContainer(result)
       updatePriceContainer(result)
       updateStatsContainer(result)
-      updateTabTitle(result)
+      updateTabTitle()
     })
 
     .catch((err) => {
