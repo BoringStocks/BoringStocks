@@ -126,6 +126,22 @@ function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, 
   }
 }
 
+// Update High and Low based on current stock price and previous HTML values
+function updateHighAndLow({ current }) {
+  const currentHigh = parseFloat(highEls[0].innerHTML)
+  const currentLow = parseFloat(lowEls[0].innerHTML)
+
+  if (current < currentLow) {
+    for (let lowEl of lowEls) {
+      lowEl.innerHTML = current.toFixed(2)
+    }
+  } else if (current > currentHigh) {
+    for (let highEl of highEls) {
+      highEl.innerHTML = current.toFixed(2)
+    }
+  }
+}
+
 function setLoadingState(isLoading) {
   loadingState = isLoading
 
@@ -156,7 +172,8 @@ function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
   updateChartContainer("")
-  requestData(ticker).then(() => {
+
+  requestAllData(ticker).then(() => {
     // Update current ticker
     localStorage.setItem(tickerKey, ticker)
     // Disable loading state
@@ -164,12 +181,26 @@ function refresh(ticker) {
     // Update Chart
     updateChartContainer("5_days")
   })
+
+  // Auto refresh stock price
   refreshStock = setInterval(function () {
-    requestData(ticker)
+    requestCurrentPrice(ticker)
   }, 5000)
 }
 
-async function requestData(ticker) {
+async function requestCurrentPrice(ticker) {
+  const url = `${api}/${ticker}/current`
+
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      updatePriceContainer(result)
+      updateHighAndLow(result)
+      updateTabTitle(result)
+    })
+}
+
+async function requestAllData(ticker) {
   const url = `${api}/${ticker}`
 
   await fetch(url)
