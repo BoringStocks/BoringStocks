@@ -66,7 +66,7 @@ function updateTabTitle({ symbol, current, points_change: { percent, points }, m
       (${percent.toFixed(2)}%)`
     }
   } else {
-    tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | Market Closed`
+    tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | At Market Close`
   }
 }
 
@@ -89,7 +89,7 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
       }
     } else {
       // Market Closed
-      priceChangeEl.innerHTML = `Market Closed`
+      priceChangeEl.innerHTML = `At Market Close`
       priceChangeEl.style.color = secondaryLabel
     }
   }
