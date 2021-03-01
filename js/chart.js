@@ -75,8 +75,8 @@ const options = {
     bodyAlign: 'center',
     titleAlign: 'center',
     displayColors: false,
-    titleFontSize: 16,
-    bodyFontSize: 16
+    titleFontSize: 14,
+    bodyFontSize: 14
   },
   hover: {
     mode: "nearest",
