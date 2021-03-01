@@ -160,8 +160,6 @@ function updateChart(data) {
     formattedDate += months[dateToFormat.getMonth()] + ', '
     formattedDate += dateToFormat.getFullYear()
 
-    console.log(formattedDate)
-
     dates.push(formattedDate)
     points.push(point.close)
   }
