@@ -72,6 +72,11 @@ const options = {
   tooltips: {
     mode: "index",
     intersect: false,
+    bodyAlign: 'center',
+    titleAlign: 'center',
+    displayColors: false,
+    titleFontSize: 16,
+    bodyFontSize: 16
   },
   hover: {
     mode: "nearest",
@@ -147,8 +152,17 @@ function updateChart(data) {
   // normalize data
   let dates = []
   let points = []
+  let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   for (let point of data) {
-    dates.push(point.date.slice(6))
+    let formattedDate = ''
+    const dateToFormat = new Date(point.date)
+    formattedDate += dateToFormat.getDate() + ' '
+    formattedDate += months[dateToFormat.getMonth()] + ', '
+    formattedDate += dateToFormat.getFullYear()
+
+    console.log(formattedDate)
+
+    dates.push(formattedDate)
     points.push(point.close)
   }
 
