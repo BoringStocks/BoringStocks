@@ -91,9 +91,12 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
         priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
         priceChangeEl.style.color = redColor
       }
-    } else {
+    } else if (market_status === 1) {
       // Market Closed
       priceChangeEl.innerHTML = `At Market Close`
+      priceChangeEl.style.color = secondaryLabel
+    } else {
+      priceChangeEl.innerHTML = `No Price`
       priceChangeEl.style.color = secondaryLabel
     }
   }
@@ -172,6 +175,37 @@ function setLoadingState(isLoading) {
       containerEl.classList.remove("hide")
     }
   }
+}
+
+// MARK: - Set Error State
+
+function setErrorState() {
+  const errorPayload = {
+    avg_volume: "Ø",
+    current: 0,
+    market_cap: "Ø",
+    market_status: -1, // signify error
+    name: "Couldn't load this stock",
+    open: 0,
+    points_change: {
+      percent: "",
+      points: "",
+    },
+    range: {
+      close: "Ø",
+      date: "",
+      high: 0,
+      low: 0,
+    },
+    symbol: "Error",
+    timestamp: "23:18:34",
+    volume: "Ø",
+  }
+
+  updateCompanyContainer(errorPayload)
+  updatePriceContainer(errorPayload)
+  updateStatsContainer(errorPayload)
+  updateTabTitle(errorPayload)
 }
 
 // MARK: -
@@ -258,6 +292,10 @@ window.addEventListener(
   true
 )
 
+// MARK: - Initial page load
+
 document.addEventListener("DOMContentLoaded", function () {
+  setLoadingState(false)
+  setErrorState()
   // refresh(defaultTicker)
 })
