@@ -9,6 +9,8 @@ import {
 } from "./constants.js"
 import { updateChartContainer } from "./chart.js"
 
+// MARK: - Elements
+
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
 
@@ -36,21 +38,7 @@ const containerEls = document.getElementsByClassName("informationContainer")
 let loadingState = true
 let refreshStock
 
-function updateCompanyContainer({ symbol, name }) {
-  let computedSymbol = symbol
-
-  // Add easter egg 🐣
-  if (symbol in easterEggs) {
-    computedSymbol += " " + easterEggs[symbol]
-  }
-
-  for (let tickerIndexEl of tickerIndexEls) {
-    tickerIndexEl.innerHTML = computedSymbol
-  }
-  for (let companyNameEl of companyNameEls) {
-    companyNameEl.innerHTML = name
-  }
-}
+// MARK: - Update Functions
 
 function updateTabTitle({ symbol, current, points_change: { percent, points }, market_status }) {
   if (market_status === 1) {
@@ -67,6 +55,22 @@ function updateTabTitle({ symbol, current, points_change: { percent, points }, m
     }
   } else {
     tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | At Market Close`
+  }
+}
+
+function updateCompanyContainer({ symbol, name }) {
+  let computedSymbol = symbol
+
+  // Add easter egg 🐣
+  if (symbol in easterEggs) {
+    computedSymbol += " " + easterEggs[symbol]
+  }
+
+  for (let tickerIndexEl of tickerIndexEls) {
+    tickerIndexEl.innerHTML = computedSymbol
+  }
+  for (let companyNameEl of companyNameEls) {
+    companyNameEl.innerHTML = name
   }
 }
 
@@ -142,6 +146,8 @@ function updateHighAndLow({ current }) {
   }
 }
 
+// MARK: - Set Global Loading State
+
 function setLoadingState(isLoading) {
   loadingState = isLoading
 
@@ -167,6 +173,8 @@ function setLoadingState(isLoading) {
     }
   }
 }
+
+// MARK: -
 
 function refresh(ticker) {
   clearInterval(refreshStock)
@@ -226,7 +234,8 @@ async function requestAllData(ticker) {
     })
 }
 
-// Search Button handler
+// MARK: - Search Button handler
+
 searchButton.onclick = (event) => {
   event.preventDefault()
   const ticker = searchInput.value
@@ -234,12 +243,8 @@ searchButton.onclick = (event) => {
   refresh(ticker)
 }
 
-// Initial page load
-document.addEventListener("DOMContentLoaded", function () {
-  refresh(defaultTicker)
-})
+// MARK: - Custom key binding for search bar
 
-// Custom key binding for search bar
 window.addEventListener(
   "keydown",
   function (event) {
@@ -252,3 +257,7 @@ window.addEventListener(
   },
   true
 )
+
+document.addEventListener("DOMContentLoaded", function () {
+  // refresh(defaultTicker)
+})
