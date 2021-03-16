@@ -113,7 +113,7 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
   }
 }
 
-function updateStatsContainer({ range: { high, low }, open, volume, avg_volume, market_cap }) {
+function updateStatsContainer({ range: { high, low, open }, volume, avg_volume, market_cap }) {
   for (let openEl of openEls) {
     openEl.innerHTML = open.toFixed(2)
   }
@@ -187,14 +187,13 @@ function setErrorState() {
     market_cap: "0.00",
     market_status: -1, // signify error
     name: "Couldn't load stock",
-    open: 0,
     points_change: {
       percent: "",
       points: "",
     },
     range: {
-      close: "Ø",
       date: "",
+      open: 0,
       high: 0,
       low: 0,
     },
@@ -241,26 +240,8 @@ function refresh(ticker) {
 
   // Auto refresh stock price
   refreshStock = setInterval(function () {
-    requestCurrentPrice(ticker)
+    requestAllData(ticker)
   }, 5000)
-}
-
-async function requestCurrentPrice(ticker) {
-  const url = `${api}/${ticker}/current`
-
-  await fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      updatePriceContainer(result)
-      updateHighAndLow(result)
-      updateTabTitle(result)
-    })
-    .catch((err) => {
-      console.log(err)
-
-      // Handle Error
-      setErrorState()
-    })
 }
 
 async function requestAllData(ticker) {
