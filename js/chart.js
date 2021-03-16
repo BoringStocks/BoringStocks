@@ -4,6 +4,7 @@ import { api, greenColor, redColor, secondaryLabel, tickerKey } from "./constant
 
 const desktopChartEl = document.getElementById("desktopChart")
 const mobileChartEl = document.getElementById("mobileChart")
+
 let desktopChart
 let mobileChart
 
@@ -12,6 +13,8 @@ const oneMonthButtonEls = document.getElementsByClassName("1MButton")
 const sixMonthsButtonEls = document.getElementsByClassName("6MButton")
 const oneYearButtonEls = document.getElementsByClassName("1YButton")
 const maxButtonEls = document.getElementsByClassName("MAXButton")
+
+const chartErrorEls = document.getElementsByClassName("chartError")
 
 // MARK: - Styling
 
@@ -159,6 +162,12 @@ function removeChartData() {
 // MARK: - Update Chart
 
 function updateChart(data) {
+  // show chart if hidden
+  if (desktopChartEl.style.display === "none") {
+    desktopChartEl.style.display = "block"
+    mobileChartEl.style.display = "block"
+  }
+
   // normalize data
   let dates = []
   let points = []
@@ -189,6 +198,19 @@ function updateChart(data) {
   desktopChart.data.datasets.pop()
   desktopChart.data.datasets.push(getDatasetObject(points, lineColor))
   desktopChart.update()
+}
+
+// MARK: - Set Error State
+
+export function setChartErrorState() {
+  removeChartData()
+
+  desktopChartEl.style.display = "none"
+  mobileChartEl.style.display = "none"
+
+  for (let chartErrorEl of chartErrorEls) {
+    chartErrorEl.style.display = "block"
+  }
 }
 
 // MARK: - Refresh Logic

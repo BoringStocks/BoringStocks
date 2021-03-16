@@ -7,7 +7,7 @@ import {
   tickerKey,
   defaultTicker,
 } from "./constants.js"
-import { updateChartContainer } from "./chart.js"
+import { updateChartContainer, setChartErrorState } from "./chart.js"
 
 // MARK: - Elements
 
@@ -185,7 +185,7 @@ function setErrorState() {
     current: 0,
     market_cap: "Ø",
     market_status: -1, // signify error
-    name: "Couldn't load this stock",
+    name: "Couldn't load Stock",
     open: 0,
     points_change: {
       percent: "",
@@ -206,6 +206,7 @@ function setErrorState() {
   updatePriceContainer(errorPayload)
   updateStatsContainer(errorPayload)
   updateTabTitle(errorPayload)
+  setChartErrorState()
 }
 
 // MARK: - Refresh Logic
