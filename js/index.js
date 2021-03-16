@@ -91,7 +91,7 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
         priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
         priceChangeEl.style.color = redColor
       }
-    } else if (market_status === 1) {
+    } else if (market_status === 0) {
       // Market Closed
       priceChangeEl.innerHTML = `At Market Close`
       priceChangeEl.style.color = secondaryLabel
