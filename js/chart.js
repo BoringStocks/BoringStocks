@@ -167,7 +167,7 @@ function updateChart(data) {
     desktopChartEl.style.display = "block"
     mobileChartEl.style.display = "block"
     for (let chartErrorEl of chartErrorEls) {
-      chartErrorEl.style.display = "none !important"
+      chartErrorEl.style.display = "none"
     }
   }
 
@@ -212,7 +212,7 @@ export function setChartErrorState() {
   mobileChartEl.style.display = "none"
 
   for (let chartErrorEl of chartErrorEls) {
-    chartErrorEl.style.display = "block !important"
+    chartErrorEl.style.display = "flex"
   }
 }
 
