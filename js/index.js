@@ -9,6 +9,8 @@ import {
 } from "./constants.js"
 import { updateChartContainer } from "./chart.js"
 
+// MARK: - Elements
+
 const tickerIndexEls = document.getElementsByClassName("tickerIndex")
 const companyNameEls = document.getElementsByClassName("companyName")
 
@@ -35,22 +37,9 @@ const containerEls = document.getElementsByClassName("informationContainer")
 
 let loadingState = true
 let refreshStock
+let lastSearchedTicker = defaultTicker
 
-function updateCompanyContainer({ symbol, name }) {
-  let computedSymbol = symbol
-
-  // Add easter egg 🐣
-  if (symbol in easterEggs) {
-    computedSymbol += " " + easterEggs[symbol]
-  }
-
-  for (let tickerIndexEl of tickerIndexEls) {
-    tickerIndexEl.innerHTML = computedSymbol
-  }
-  for (let companyNameEl of companyNameEls) {
-    companyNameEl.innerHTML = name
-  }
-}
+// MARK: - Update Functions
 
 function updateTabTitle({ symbol, current, points_change: { percent, points }, market_status }) {
   if (market_status === 1) {
@@ -67,6 +56,22 @@ function updateTabTitle({ symbol, current, points_change: { percent, points }, m
     }
   } else {
     tabTitle.innerHTML = `${symbol} | ${current.toFixed(2)} | At Market Close`
+  }
+}
+
+function updateCompanyContainer({ symbol, name }) {
+  let computedSymbol = symbol
+
+  // Add easter egg 🐣
+  if (symbol in easterEggs) {
+    computedSymbol += " " + easterEggs[symbol]
+  }
+
+  for (let tickerIndexEl of tickerIndexEls) {
+    tickerIndexEl.innerHTML = computedSymbol
+  }
+  for (let companyNameEl of companyNameEls) {
+    companyNameEl.innerHTML = name
   }
 }
 
@@ -87,9 +92,12 @@ function updatePriceContainer({ current, points_change: { percent, points }, mar
         priceChangeEl.innerHTML = `${points.toFixed(2)} (${percent.toFixed(2)}%)`
         priceChangeEl.style.color = redColor
       }
-    } else {
+    } else if (market_status === 0) {
       // Market Closed
       priceChangeEl.innerHTML = `At Market Close`
+      priceChangeEl.style.color = secondaryLabel
+    } else {
+      priceChangeEl.innerHTML = `No Price`
       priceChangeEl.style.color = secondaryLabel
     }
   }
@@ -142,6 +150,8 @@ function updateHighAndLow({ current }) {
   }
 }
 
+// MARK: - Set Global Loading State
+
 function setLoadingState(isLoading) {
   loadingState = isLoading
 
@@ -168,10 +178,57 @@ function setLoadingState(isLoading) {
   }
 }
 
+// MARK: - Set Error State
+
+function setErrorState() {
+  const errorPayload = {
+    avg_volume: "0.00",
+    current: 0,
+    market_cap: "0.00",
+    market_status: -1, // signify error
+    name: "Couldn't load stock",
+    open: 0,
+    points_change: {
+      percent: "",
+      points: "",
+    },
+    range: {
+      close: "Ø",
+      date: "",
+      high: 0,
+      low: 0,
+    },
+    symbol: lastSearchedTicker,
+    timestamp: "23:18:34",
+    volume: "0.00",
+  }
+
+  // Clear Auto-Refresh
+  clearInterval(refreshStock)
+
+  // Update Containers
+  updateCompanyContainer(errorPayload)
+  updatePriceContainer(errorPayload)
+  updateStatsContainer(errorPayload)
+  updateTabTitle(errorPayload)
+
+  // Disable Loading State
+  setLoadingState(false)
+
+  // Shake Animation
+  searchForm.classList.remove("shakeAnimation")
+  setTimeout(function () {
+    searchForm.classList.add("shakeAnimation")
+  }, 0)
+}
+
+// MARK: - Refresh Logic
+
 function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
   updateChartContainer("")
+  lastSearchedTicker = ticker
 
   requestAllData(ticker).then(() => {
     // Update current ticker
@@ -198,6 +255,12 @@ async function requestCurrentPrice(ticker) {
       updateHighAndLow(result)
       updateTabTitle(result)
     })
+    .catch((err) => {
+      console.log(err)
+
+      // Handle Error
+      setErrorState()
+    })
 }
 
 async function requestAllData(ticker) {
@@ -212,21 +275,16 @@ async function requestAllData(ticker) {
       updateStatsContainer(result)
       updateTabTitle(result)
     })
-
     .catch((err) => {
       console.log(err)
-      setLoadingState(false)
-      clearInterval(refreshStock)
 
-      searchForm.classList.remove("shakeAnimation")
-      setTimeout(function () {
-        searchForm.classList.add("shakeAnimation")
-      }, 0)
-      // TODO: show error state
+      // Handle Error
+      setErrorState()
     })
 }
 
-// Search Button handler
+// MARK: - Search Button handler
+
 searchButton.onclick = (event) => {
   event.preventDefault()
   const ticker = searchInput.value
@@ -234,12 +292,8 @@ searchButton.onclick = (event) => {
   refresh(ticker)
 }
 
-// Initial page load
-document.addEventListener("DOMContentLoaded", function () {
-  refresh(defaultTicker)
-})
+// MARK: - Custom key binding for search bar
 
-// Custom key binding for search bar
 window.addEventListener(
   "keydown",
   function (event) {
@@ -252,3 +306,9 @@ window.addEventListener(
   },
   true
 )
+
+// MARK: - Initial page load
+
+document.addEventListener("DOMContentLoaded", function () {
+  refresh(defaultTicker)
+})
