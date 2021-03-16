@@ -258,6 +258,8 @@ async function requestAllData(ticker) {
 
     .catch((err) => {
       console.log(err)
+
+      setErrorState()
       setLoadingState(false)
       clearInterval(refreshStock)
 
@@ -296,7 +298,7 @@ window.addEventListener(
 // MARK: - Initial page load
 
 document.addEventListener("DOMContentLoaded", function () {
-  setLoadingState(false)
-  setErrorState()
-  // refresh(defaultTicker)
+  // setLoadingState(false)
+  // setErrorState()
+  refresh(defaultTicker)
 })

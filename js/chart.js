@@ -166,6 +166,9 @@ function updateChart(data) {
   if (desktopChartEl.style.display === "none") {
     desktopChartEl.style.display = "block"
     mobileChartEl.style.display = "block"
+    for (let chartErrorEl of chartErrorEls) {
+      chartErrorEl.style.display = "none !important"
+    }
   }
 
   // normalize data
