@@ -1,5 +1,7 @@
 import { api, greenColor, redColor, secondaryLabel, tickerKey } from "./constants.js"
 
+// MARK: - Elements
+
 const desktopChartEl = document.getElementById("desktopChart")
 const mobileChartEl = document.getElementById("mobileChart")
 let desktopChart
@@ -10,6 +12,8 @@ const oneMonthButtonEls = document.getElementsByClassName("1MButton")
 const sixMonthsButtonEls = document.getElementsByClassName("6MButton")
 const oneYearButtonEls = document.getElementsByClassName("1YButton")
 const maxButtonEls = document.getElementsByClassName("MAXButton")
+
+// MARK: - Styling
 
 const gridStyles = {
   drawBorder: false,
@@ -72,11 +76,11 @@ const options = {
   tooltips: {
     mode: "index",
     intersect: false,
-    bodyAlign: 'center',
-    titleAlign: 'center',
+    bodyAlign: "center",
+    titleAlign: "center",
     displayColors: false,
     titleFontSize: 14,
-    bodyFontSize: 14
+    bodyFontSize: 14,
   },
   hover: {
     mode: "nearest",
@@ -97,6 +101,8 @@ function getDatasetObject(data, lineColor) {
     borderCapStyle: "round",
   }
 }
+
+// MARK: - Create Chart
 
 function createChart() {
   const dates = []
@@ -137,6 +143,8 @@ function createChart() {
   })
 }
 
+// MARK: - Remove Chart
+
 function removeChartData() {
   // git blame: chartjs for this extremly high DRY code
   // Update mobile chart
@@ -148,16 +156,18 @@ function removeChartData() {
   desktopChart.update()
 }
 
+// MARK: - Update Chart
+
 function updateChart(data) {
   // normalize data
   let dates = []
   let points = []
-  let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   for (let point of data) {
-    let formattedDate = ''
+    let formattedDate = ""
     const dateToFormat = new Date(point.date)
-    formattedDate += dateToFormat.getDate() + ' '
-    formattedDate += months[dateToFormat.getMonth()] + ', '
+    formattedDate += dateToFormat.getDate() + " "
+    formattedDate += months[dateToFormat.getMonth()] + ", "
     formattedDate += dateToFormat.getFullYear()
 
     dates.push(formattedDate)
@@ -181,6 +191,8 @@ function updateChart(data) {
   desktopChart.update()
 }
 
+// MARK: - Refresh Logic
+
 let lastButtonPressedEls = []
 async function requestChartData(duration) {
   const ticker = localStorage.getItem(tickerKey)
@@ -197,6 +209,8 @@ async function requestChartData(duration) {
       // TODO: show error state
     })
 }
+
+// MARK: - Buttons Logic
 
 function updateButtonEls(buttonEls, updater) {
   for (let buttonEl of buttonEls) {
@@ -285,5 +299,7 @@ updateButtonEls(maxButtonEls, (buttonEl) => {
     updateChartContainer("max")
   }
 })
+
+// MARK: - Initial page load
 
 createChart()

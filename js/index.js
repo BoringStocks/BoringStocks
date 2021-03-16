@@ -208,7 +208,7 @@ function setErrorState() {
   updateTabTitle(errorPayload)
 }
 
-// MARK: -
+// MARK: - Refresh Logic
 
 function refresh(ticker) {
   clearInterval(refreshStock)
