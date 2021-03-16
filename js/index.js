@@ -187,14 +187,13 @@ function setErrorState() {
     market_cap: "0.00",
     market_status: -1, // signify error
     name: "Couldn't load stock",
-    open: 0,
     points_change: {
       percent: "",
       points: "",
     },
     range: {
-      close: "Ø",
       date: "",
+      open: 0,
       high: 0,
       low: 0,
     },

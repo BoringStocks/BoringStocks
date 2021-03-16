@@ -8,11 +8,11 @@ const mobileChartEl = document.getElementById("mobileChart")
 let desktopChart
 let mobileChart
 
+const oneDayButtonEls = document.getElementsByClassName("1DButton")
 const fiveDaysButtonEls = document.getElementsByClassName("5DButton")
-const oneMonthButtonEls = document.getElementsByClassName("1MButton")
-const sixMonthsButtonEls = document.getElementsByClassName("6MButton")
+const threeMonthsButtonEls = document.getElementsByClassName("3MButton")
 const oneYearButtonEls = document.getElementsByClassName("1YButton")
-const maxButtonEls = document.getElementsByClassName("MAXButton")
+const fiveYearsButtonEls = document.getElementsByClassName("5YButton")
 
 const chartErrorEls = document.getElementsByClassName("chartError")
 
@@ -264,30 +264,30 @@ export function updateChartContainer(duration) {
   // Disable all buttons
   // only show loader on btn pressed
   switch (duration) {
+    case "1_day":
+      updateButtonEls(lastButtonPressedEls, enableButton)
+      updateButtonEls(oneDayButtonEls, disableButtonWithLoader)
+      lastButtonPressedEls = oneDayButtonEls
+      break
     case "5_days":
       updateButtonEls(lastButtonPressedEls, enableButton)
       updateButtonEls(fiveDaysButtonEls, disableButtonWithLoader)
       lastButtonPressedEls = fiveDaysButtonEls
       break
-    case "1_month":
+    case "3_months":
       updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(oneMonthButtonEls, disableButtonWithLoader)
-      lastButtonPressedEls = oneMonthButtonEls
-      break
-    case "6_months":
-      updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(sixMonthsButtonEls, disableButtonWithLoader)
-      lastButtonPressedEls = sixMonthsButtonEls
+      updateButtonEls(threeMonthsButtonEls, disableButtonWithLoader)
+      lastButtonPressedEls = threeMonthsButtonEls
       break
     case "1_year":
       updateButtonEls(lastButtonPressedEls, enableButton)
       updateButtonEls(oneYearButtonEls, disableButtonWithLoader)
       lastButtonPressedEls = oneYearButtonEls
       break
-    case "max":
+    case "5_years":
       updateButtonEls(lastButtonPressedEls, enableButton)
-      updateButtonEls(maxButtonEls, disableButtonWithLoader)
-      lastButtonPressedEls = maxButtonEls
+      updateButtonEls(fiveYearsButtonEls, disableButtonWithLoader)
+      lastButtonPressedEls = fiveYearsButtonEls
       break
     default:
       updateButtonEls(lastButtonPressedEls, enableButton)
@@ -298,19 +298,19 @@ export function updateChartContainer(duration) {
   requestChartData(duration)
 }
 
+updateButtonEls(oneDayButtonEls, (buttonEl) => {
+  buttonEl.onclick = () => {
+    updateChartContainer("1_day")
+  }
+})
 updateButtonEls(fiveDaysButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
     updateChartContainer("5_days")
   }
 })
-updateButtonEls(oneMonthButtonEls, (buttonEl) => {
+updateButtonEls(threeMonthsButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartContainer("1_month")
-  }
-})
-updateButtonEls(sixMonthsButtonEls, (buttonEl) => {
-  buttonEl.onclick = () => {
-    updateChartContainer("6_months")
+    updateChartContainer("3_months")
   }
 })
 updateButtonEls(oneYearButtonEls, (buttonEl) => {
@@ -318,9 +318,9 @@ updateButtonEls(oneYearButtonEls, (buttonEl) => {
     updateChartContainer("1_year")
   }
 })
-updateButtonEls(maxButtonEls, (buttonEl) => {
+updateButtonEls(fiveYearsButtonEls, (buttonEl) => {
   buttonEl.onclick = () => {
-    updateChartContainer("max")
+    updateChartContainer("5_years")
   }
 })
 
