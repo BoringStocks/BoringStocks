@@ -202,11 +202,24 @@ function setErrorState() {
     volume: "Ø",
   }
 
+  // Clear Auto-Refresh
+  clearInterval(refreshStock)
+
+  // Update Containers
   updateCompanyContainer(errorPayload)
   updatePriceContainer(errorPayload)
   updateStatsContainer(errorPayload)
   updateTabTitle(errorPayload)
   setChartErrorState()
+
+  // Disable Loading State
+  setLoadingState(false)
+
+  // Shake Animation
+  searchForm.classList.remove("shakeAnimation")
+  setTimeout(function () {
+    searchForm.classList.add("shakeAnimation")
+  }, 0)
 }
 
 // MARK: - Refresh Logic
@@ -241,6 +254,12 @@ async function requestCurrentPrice(ticker) {
       updateHighAndLow(result)
       updateTabTitle(result)
     })
+    .catch((err) => {
+      console.log(err)
+
+      // Handle Error
+      setErrorState()
+    })
 }
 
 async function requestAllData(ticker) {
@@ -255,19 +274,11 @@ async function requestAllData(ticker) {
       updateStatsContainer(result)
       updateTabTitle(result)
     })
-
     .catch((err) => {
       console.log(err)
 
+      // Handle Error
       setErrorState()
-      setLoadingState(false)
-      clearInterval(refreshStock)
-
-      searchForm.classList.remove("shakeAnimation")
-      setTimeout(function () {
-        searchForm.classList.add("shakeAnimation")
-      }, 0)
-      // TODO: show error state
     })
 }
 

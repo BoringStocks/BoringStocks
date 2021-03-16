@@ -212,7 +212,7 @@ export function setChartErrorState() {
   mobileChartEl.style.display = "none"
 
   for (let chartErrorEl of chartErrorEls) {
-    chartErrorEl.style.display = "block"
+    chartErrorEl.style.display = "block !important"
   }
 }
 
