@@ -162,14 +162,8 @@ function removeChartData() {
 // MARK: - Update Chart
 
 function updateChart(data) {
-  // show chart if hidden
-  if (desktopChartEl.style.display === "none") {
-    desktopChartEl.style.display = "block"
-    mobileChartEl.style.display = "block"
-    for (let chartErrorEl of chartErrorEls) {
-      chartErrorEl.style.display = "none"
-    }
-  }
+  // Disable Error State
+  setChartErrorState(false)
 
   // normalize data
   let dates = []
@@ -205,14 +199,17 @@ function updateChart(data) {
 
 // MARK: - Set Error State
 
-export function setChartErrorState() {
-  removeChartData()
+function setChartErrorState(isError = true) {
+  if (isError) {
+    removeChartData()
+    updateButtonEls(lastButtonPressedEls, enableButton)
+  }
 
-  desktopChartEl.style.display = "none"
-  mobileChartEl.style.display = "none"
+  desktopChartEl.style.display = isError ? "none" : "block"
+  mobileChartEl.style.display = isError ? "none" : "block"
 
   for (let chartErrorEl of chartErrorEls) {
-    chartErrorEl.style.display = "flex"
+    chartErrorEl.style.display = isError ? "flex" : "none"
   }
 }
 
@@ -231,7 +228,9 @@ async function requestChartData(duration) {
     })
     .catch((error) => {
       console.log(error)
-      // TODO: show error state
+
+      // Handle Error
+      setChartErrorState()
     })
 }
 

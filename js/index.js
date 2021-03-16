@@ -7,7 +7,7 @@ import {
   tickerKey,
   defaultTicker,
 } from "./constants.js"
-import { updateChartContainer, setChartErrorState } from "./chart.js"
+import { updateChartContainer } from "./chart.js"
 
 // MARK: - Elements
 
@@ -37,6 +37,7 @@ const containerEls = document.getElementsByClassName("informationContainer")
 
 let loadingState = true
 let refreshStock
+let lastSearchedTicker = defaultTicker
 
 // MARK: - Update Functions
 
@@ -181,11 +182,11 @@ function setLoadingState(isLoading) {
 
 function setErrorState() {
   const errorPayload = {
-    avg_volume: "Ø",
+    avg_volume: "0.00",
     current: 0,
-    market_cap: "Ø",
+    market_cap: "0.00",
     market_status: -1, // signify error
-    name: "Couldn't load Stock",
+    name: "Couldn't load stock",
     open: 0,
     points_change: {
       percent: "",
@@ -197,9 +198,9 @@ function setErrorState() {
       high: 0,
       low: 0,
     },
-    symbol: "Error",
+    symbol: lastSearchedTicker,
     timestamp: "23:18:34",
-    volume: "Ø",
+    volume: "0.00",
   }
 
   // Clear Auto-Refresh
@@ -210,7 +211,6 @@ function setErrorState() {
   updatePriceContainer(errorPayload)
   updateStatsContainer(errorPayload)
   updateTabTitle(errorPayload)
-  setChartErrorState()
 
   // Disable Loading State
   setLoadingState(false)
@@ -228,6 +228,7 @@ function refresh(ticker) {
   clearInterval(refreshStock)
   setLoadingState(true)
   updateChartContainer("")
+  lastSearchedTicker = ticker
 
   requestAllData(ticker).then(() => {
     // Update current ticker
@@ -309,7 +310,5 @@ window.addEventListener(
 // MARK: - Initial page load
 
 document.addEventListener("DOMContentLoaded", function () {
-  // setLoadingState(false)
-  // setErrorState()
   refresh(defaultTicker)
 })
