@@ -2,8 +2,13 @@
 <html>
 
 <head>
+  <!-- SEO -->
   <title id='tabTitle'>BoringStocks</title>
+  <meta name="description" content="Stocks for the average trader.">
+  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- External Packages -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
@@ -11,20 +16,22 @@
     integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
     crossorigin="anonymous"></script>
 
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/button.css">
   <link rel="stylesheet" href="./css/insetShadow.css">
   <link rel="stylesheet" href="./css/shimmer.css">
   <link rel="stylesheet" href="./css/shake.css">
 
+  <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
   <link rel="manifest" href="/icons/site.webmanifest">
   <link rel="shortcut icon" href="/icons/favicon.ico">
 
-  <meta name="color-scheme" content="dark">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fathom - beautiful, simple website analytics -->
+  <script src="https://cdn.usefathom.com/script.js" data-site="GEPOGEIH" defer></script>
 </head>
 
 <body>
@@ -134,18 +141,18 @@
           <div class="col bg-dark colStyles rootContainer shine" style="margin-left: 24px;">
             <div class="informationContainer hide d-flex h-100">
               <div class="btn-group-vertical" role="group" style="margin-right: 16px; min-width: 50px;">
+                <button class="btn btn-outline-light buttonStyle 1DButton">
+                  <span class="label">1D</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
                 <button class="btn btn-outline-light buttonStyle 5DButton">
                   <span class="label">5D</span>
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
-                <button class="btn btn-outline-light buttonStyle 1MButton">
-                  <span class="label">1M</span>
-                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
-                    aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-outline-light buttonStyle 6MButton">
-                  <span class="label">6M</span>
+                <button class="btn btn-outline-light buttonStyle 3MButton">
+                  <span class="label">3M</span>
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
@@ -154,8 +161,8 @@
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
-                <button class="btn btn-outline-light buttonStyle MAXButton">
-                  <span class="label">∞</span>
+                <button class="btn btn-outline-light buttonStyle 5YButton">
+                  <span class="label">5Y</span>
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
@@ -163,6 +170,11 @@
 
               <div class="chartContainer">
                 <canvas id="desktopChart"></canvas>
+
+                <h4 class="chartError secondaryLabel h-100 justify-content-center align-items-center"
+                  style="display: none">
+                  Couldn't load chart
+                </h4>
               </div>
             </div>
           </div>
@@ -194,18 +206,18 @@
           <div class="col-md-12 bg-dark colStyles rootContainer shine" style="height: 300px;">
             <div class="informationContainer hide d-flex flex-column-reverse h-100">
               <div class="btn-group" role="group" style="margin-top: 16px; min-width: 50px;">
+                <button class="btn btn-outline-light buttonStyle 1DButton">
+                  <span class="label">1D</span>
+                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
+                    aria-hidden="true"></span>
+                </button>
                 <button class="btn btn-outline-light buttonStyle 5DButton">
                   <span class="label">5D</span>
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
-                <button class="btn btn-outline-light buttonStyle 1MButton">
-                  <span class="label">1M</span>
-                  <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
-                    aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-outline-light buttonStyle 6MButton">
-                  <span class="label">6M</span>
+                <button class="btn btn-outline-light buttonStyle 3MButton">
+                  <span class="label">3M</span>
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
@@ -214,8 +226,8 @@
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
-                <button class="btn btn-outline-light buttonStyle MAXButton">
-                  <span class="label">∞</span>
+                <button class="btn btn-outline-light buttonStyle 5YButton">
+                  <span class="label">5Y</span>
                   <span class="spinner-border spinner-border-sm loader" style="display: none" role="status"
                     aria-hidden="true"></span>
                 </button>
@@ -223,6 +235,11 @@
 
               <div class="chartContainer">
                 <canvas id="mobileChart"></canvas>
+
+                <h4 class="chartError secondaryLabel h-100 justify-content-center align-items-center"
+                  style="display: none">
+                  Couldn't load chart
+                </h4>
               </div>
             </div>
           </div>
