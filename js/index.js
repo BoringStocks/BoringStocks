@@ -235,7 +235,7 @@ function refresh(ticker) {
     // Disable loading state
     setLoadingState(false)
     // Update Chart
-    updateChartContainer("5_days")
+    updateChartContainer("1_day")
   })
 
   // Auto refresh stock price
