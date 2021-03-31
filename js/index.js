@@ -8,6 +8,7 @@ import {
   defaultTicker,
 } from "./constants.js"
 import { updateChartContainer } from "./chart.js"
+import { abbreviateNumber } from "./utils.js"
 
 // MARK: - Elements
 
@@ -124,29 +125,13 @@ function updateStatsContainer({ range: { high, low, open }, volume, avg_volume, 
     lowEl.innerHTML = low.toFixed(2)
   }
   for (let volumeEl of volumeEls) {
-    volumeEl.innerHTML = volume.toLocaleString()
+    volumeEl.innerHTML = abbreviateNumber(volume)
   }
   for (let avgVolumeEl of avgVolumeEls) {
-    avgVolumeEl.innerHTML = avg_volume.toLocaleString()
+    avgVolumeEl.innerHTML = abbreviateNumber(avg_volume)
   }
   for (let marketCapEl of marketCapEls) {
-    marketCapEl.innerHTML = market_cap
-  }
-}
-
-// Update High and Low based on current stock price and previous HTML values
-function updateHighAndLow({ current }) {
-  const currentHigh = parseFloat(highEls[0].innerHTML)
-  const currentLow = parseFloat(lowEls[0].innerHTML)
-
-  if (current < currentLow) {
-    for (let lowEl of lowEls) {
-      lowEl.innerHTML = current.toFixed(2)
-    }
-  } else if (current > currentHigh) {
-    for (let highEl of highEls) {
-      highEl.innerHTML = current.toFixed(2)
-    }
+    marketCapEl.innerHTML = abbreviateNumber(market_cap)
   }
 }
 
