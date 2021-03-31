@@ -37,3 +37,6 @@ We are commited to being fully transperant and honest.  That's why we use a priv
 
 ## Contributing 
 Contributions are very welcome 🙌, feel free to share ideas 💭 by opening an issue, or directly creating a pull request 🛠.
+
+## License
+`BoringStocks` is available under the MIT license. See the [LICENSE](https://github.com/BoringStocks/BoringStocks/blob/dev/LICENSE) file for more info.
