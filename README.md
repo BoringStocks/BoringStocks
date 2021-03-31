@@ -10,12 +10,9 @@
   <br/>
   <br/>
 
-  <a href="https://boringstocks.live">
-    <img src="https://repository-images.githubusercontent.com/332868149/a3c11200-7125-11eb-818d-5d0a73f6ffb4" height="250px">
+  <a target="_blank" rel="noopener" rel="noreferrer" href="https://boringstocks.live">
+    <img src="./icons/android-chrome-256x256.png" height="128px">
   </a>
-
-  <br/>
-  <br/>
 
   <h1>BoringStocks</h1>
   <i>A minimalistic stock information website for the average trader.</i>  
@@ -36,7 +33,7 @@ We set out to create a platform which would combine the best features of everyth
 We've decided to go the extra mile and make an in-house API, [StonkScraper](https://github.com/BoringStocks/StonkScraper). If you want to use it yourself or just want to see how it works, you can find it [here](https://github.com/BoringStocks/StonkScraper).
 
 ## Who is using the app?
-
+We are commited to being fully transperant and honest.  That's why we use a privacy focused analytics tool, Fathom. If you are curious how much traffic we receive, you can checkout our [dashboard](https://app.usefathom.com/share/gepogeih/boringstocks).
 
 ## Contributing 
-Contributions are very welcome 🙌, feel free to share ideas 💭 by opening an issue, or directly create a pull request 🛠.
+Contributions are very welcome 🙌, feel free to share ideas 💭 by opening an issue, or directly creating a pull request 🛠.
