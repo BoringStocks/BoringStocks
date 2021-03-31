@@ -181,7 +181,9 @@ function updateChart(data) {
   }
 
   // compute line color
-  const lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
+  const firstPoint = parseFloat(points[0])
+  const lastPoint = parseFloat(points[points.length - 1])
+  const lineColor = firstPoint < lastPoint ? greenColor : redColor
 
   // git blame: chartjs for this extremly high DRY code
   // Update mobile chart
