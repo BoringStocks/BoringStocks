@@ -10,3 +10,22 @@ export function abbreviateNumber(number) {
 
   return scaled.toFixed(3) + suffix
 }
+
+
+export function formatTime(hour, minutes) {
+  let formattedTime = ""
+
+  if ( hour > 12 ) {
+    formattedTime += (hour - 12) + ":"
+    minutes < 10 ? formattedTime += "0" + minutes : formattedTime += minutes
+
+    formattedTime += " PM"
+  } else {
+    formattedTime += hour + ":"
+    minutes < 10 ? formattedTime += "0" + minutes : formattedTime += minutes
+
+    hour === 12 ? formattedTime += " PM" : formattedTime += " AM"
+  }
+
+  return formattedTime
+}
