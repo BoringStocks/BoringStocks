@@ -1,5 +1,5 @@
 import { api, greenColor, redColor, secondaryLabel, tickerKey } from "./constants.js"
-import { formatTime } from './utils.js'
+import { formatTime } from "./utils.js"
 
 // MARK: - Elements
 
@@ -186,7 +186,7 @@ function updateChart(data, duration) {
     }
 
     dates.push(formattedDate)
-    points.push(point.close)
+    points.push(parseFloat(point.close).toFixed(2))
   }
 
   // compute line color
