@@ -1,4 +1,5 @@
 import { api, greenColor, redColor, secondaryLabel, tickerKey } from "./constants.js"
+import { formatTime } from "./utils.js"
 
 // MARK: - Elements
 
@@ -161,7 +162,7 @@ function removeChartData() {
 
 // MARK: - Update Chart
 
-function updateChart(data) {
+function updateChart(data, duration) {
   // Disable Error State
   setChartErrorState(false)
 
@@ -172,16 +173,26 @@ function updateChart(data) {
   for (let point of data) {
     let formattedDate = ""
     const dateToFormat = new Date(point.date)
-    formattedDate += dateToFormat.getDate() + " "
-    formattedDate += months[dateToFormat.getMonth()] + ", "
-    formattedDate += dateToFormat.getFullYear()
+
+    // If the selected duration is 1D, use formatTime utility function to return time of the point.
+    if (duration === "1_day") {
+      let hours = dateToFormat.getHours()
+      let minutes = dateToFormat.getMinutes()
+      formattedDate = formatTime(hours, minutes)
+    } else {
+      formattedDate += dateToFormat.getDate() + " "
+      formattedDate += months[dateToFormat.getMonth()] + ", "
+      formattedDate += dateToFormat.getFullYear()
+    }
 
     dates.push(formattedDate)
-    points.push(point.close)
+    points.push(parseFloat(point.close).toFixed(2))
   }
 
   // compute line color
-  const lineColor = points[0] < points[points.length - 1] ? greenColor : redColor
+  const firstPoint = parseFloat(points[0])
+  const lastPoint = parseFloat(points[points.length - 1])
+  const lineColor = firstPoint < lastPoint ? greenColor : redColor
 
   // git blame: chartjs for this extremly high DRY code
   // Update mobile chart
@@ -224,7 +235,7 @@ async function requestChartData(duration) {
     .then((response) => response.json())
     .then((result) => {
       updateButtonEls(lastButtonPressedEls, disableButton)
-      updateChart(result.historical)
+      updateChart(result.historical, duration)
     })
     .catch((error) => {
       console.log(error)
